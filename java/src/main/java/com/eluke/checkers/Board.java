@@ -1,7 +1,9 @@
 package com.eluke.checkers;
 
 import java.util.Collection;
+import java.util.HashMap;
 import java.util.LinkedList;
+import java.util.Map;
 import java.util.Optional;
 
 
@@ -27,6 +29,9 @@ public class Board {
 			return coordinate;
 		}
 
+		public Piece getPiece() {
+			return piece;
+		}
 	}
 
 	private static final int BOARD_SIZE = 8;
@@ -46,6 +51,13 @@ public class Board {
 	public Optional<Piece> getPieceAt(Coordinate coordinate) {
 		if (!isValidPosition(coordinate)) { 
 			throw new RuntimeException("Cannot get piece at " + coordinate + " as the location is invalid");
+		}
+		return Optional.ofNullable(board[coordinate.getRow()][coordinate.getCol()]);
+	}
+	
+	public Optional<Piece> safeGetPieceAt(Coordinate coordinate) {
+		if (!isValidPosition(coordinate)) { 
+			return Optional.empty();
 		}
 		return Optional.ofNullable(board[coordinate.getRow()][coordinate.getCol()]);
 	}
@@ -138,5 +150,26 @@ public class Board {
 			builder.append('\n');
 		}
 		return builder.toString();
+	}
+
+	public String dump() {
+		StringBuilder builder = new StringBuilder();
+		getPiecesForColor(Color.Black).stream()
+			.forEach(pp -> builder.append("board.placePieceAt(").append(dumpPiece(pp, Color.Black)).append(");\n"));
+		getPiecesForColor(Color.Red).stream()
+		.forEach(pp -> builder.append("board.placePieceAt(").append(dumpPiece(pp, Color.Red)).append(");\n"));
+		return builder.toString();
+	}
+	
+	private String dumpPiece(PlacedPiece piece, Color color) {
+		if (piece.getPiece() instanceof SinglePiece) {
+			SinglePiece sp = (SinglePiece)piece.getPiece();
+			
+			return sp.color() + "Piece(), new Coordinate" + piece.getCoordinate();
+		}
+		else {
+			KingPiece kp = (KingPiece)piece.getPiece();
+			return "new KingPiece(Color." + kp.color() + "), new Coordinate" + piece.getCoordinate();
+		}
 	}
 }

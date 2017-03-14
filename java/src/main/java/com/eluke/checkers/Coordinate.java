@@ -11,7 +11,7 @@ public class Coordinate {
 	}
 	@Override
 	public String toString() {
-		return "Coordinate [row=" + row + ", col=" + col + "]";
+		return "(" + row + ", " + col + ")";
 	}
 	public Coordinate(int row, int col) {
 		this.row = row;

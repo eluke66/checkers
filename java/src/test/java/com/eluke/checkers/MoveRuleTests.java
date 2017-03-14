@@ -20,8 +20,8 @@ public class MoveRuleTests {
 	
 	@Test
 	public void ifCapturingMovesAreAvailableTheyMustBePickedForSimple() {
-		board.placePieceAt(blackPiece(), new Coordinate(0,2));
-		board.placePieceAt(redPiece(), new Coordinate(1,1));
+		board.placePieceAt(BlackPiece(), new Coordinate(0,2));
+		board.placePieceAt(RedPiece(), new Coordinate(1,1));
 		Collection<Move> moves = rules.getMovesForColor(Color.Black, board);
 		
 		assertThat(moves.size()).isEqualTo(1);
@@ -31,9 +31,9 @@ public class MoveRuleTests {
 	
 	@Test
 	public void ifCapturingMovesAreAvailableTheyMustBePickedForMultiJumps() {
-		board.placePieceAt(blackPiece(), new Coordinate(0,2));
-		board.placePieceAt(redPiece(), new Coordinate(1,3));
-		board.placePieceAt(redPiece(), new Coordinate(3,5));
+		board.placePieceAt(BlackPiece(), new Coordinate(0,2));
+		board.placePieceAt(RedPiece(), new Coordinate(1,3));
+		board.placePieceAt(RedPiece(), new Coordinate(3,5));
 		
 		Collection<Move> moves = rules.getMovesForColor(Color.Black, board);
 		
@@ -45,12 +45,12 @@ public class MoveRuleTests {
 		assertThat(newBlackPiece).isPresent();
 		assertThat(newBlackPiece.get().color()).isEqualTo(Color.Black);
 	}
-
-	private SinglePiece blackPiece() {
+	
+	private SinglePiece BlackPiece() {
 		return new SinglePiece(Color.Black, SinglePiece.FORWARD);
 	}
 	
-	private SinglePiece redPiece() { 
+	private SinglePiece RedPiece() { 
 		return new SinglePiece(Color.Red, SinglePiece.REVERSE);
 	}
 	

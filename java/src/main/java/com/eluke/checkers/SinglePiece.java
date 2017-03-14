@@ -56,4 +56,8 @@ public class SinglePiece extends Piece {
 			return false;
 		return true;
 	}
+	
+	public String toString() {
+		return this.color() + " Piece";
+	}
 }

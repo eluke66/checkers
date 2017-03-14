@@ -35,4 +35,8 @@ public class KingPiece extends Piece {
 				new Coordinate(c.getRow()-1, c.getCol()+1),
 				new Coordinate(c.getRow()-1, c.getCol()-1));
 	}
+	
+	public String toString() {
+		return this.color() + " King";
+	}
 }

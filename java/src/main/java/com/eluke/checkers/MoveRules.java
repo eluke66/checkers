@@ -12,26 +12,37 @@ public class MoveRules {
 
 	public static Collection<Move> getSimpleMoves(Board board, Piece piece, Coordinate coordinate, Function<Coordinate,Collection<Coordinate>> coordinateProducer) {
 		return 
-		coordinateProducer.apply(coordinate).stream()
-			.filter(c -> board.isValidPosition(c))
-			.filter(c-> !board.getPieceAt(c).isPresent())
-			.map(c -> Move.simpleMove(board, piece, coordinate, c))
-			.collect(Collectors.toList());
+				coordinateProducer.apply(coordinate).stream()
+				.filter(c -> board.isValidPosition(c))
+				.filter(c-> !board.getPieceAt(c).isPresent())
+				.map(c -> Move.simpleMove(board, piece, coordinate, c))
+				.collect(Collectors.toList());
 	}
-	
+
 	public static Collection<Move> getJumpMoves(Board board, Piece piece, Coordinate coordinate, Function<Coordinate,Collection<Coordinate>> coordinateProducer) {
 		Collection<Move> initialMoves =  
-		coordinateProducer.apply(coordinate).stream()
-			.filter(c -> board.isValidPosition(c))
-			.filter(c -> board.getPieceAt(c).isPresent() && board.getPieceAt(c).get().color() != piece.color())
-			.filter(c -> !board.getPieceAt(Coordinate.extending(coordinate, c)).isPresent())
-			.map(c -> Move.jumpMove(board, piece, coordinate, c))
-			.collect(Collectors.toList());
-		
+				coordinateProducer.apply(coordinate).stream()
+				.filter(c-> isValidCoordinate(board,c))
+				.filter(c-> pieceIsJumpable(board, piece, c))
+				.filter(c-> nextSpaceIsLandable(board, piece, coordinate, c))
+				.map(c -> Move.jumpMove(board, piece, coordinate, c))
+				.collect(Collectors.toList());
+
 
 		Collection<Move> finalMoves = new LinkedList<Move>();
 		searchJumps(initialMoves, board, piece, finalMoves, coordinateProducer);
 		return finalMoves;
+	}
+
+	private static boolean isValidCoordinate(Board board, Coordinate coordinate) {
+		return board.isValidPosition(coordinate);
+	}
+	private static boolean pieceIsJumpable(Board board, Piece piece, Coordinate coordinate ) {
+		return board.getPieceAt(coordinate).isPresent() && board.getPieceAt(coordinate).get().color() != piece.color();
+	}
+	private static boolean nextSpaceIsLandable(Board board, Piece piece, Coordinate origin, Coordinate coordinate ) {
+		Coordinate landingSpot = Coordinate.extending(origin, coordinate);
+		return isValidCoordinate(board, landingSpot) && !board.getPieceAt(landingSpot).isPresent();
 	}
 	
 	private static void searchJumps(Collection<Move> moves, Board board, Piece piece, Collection<Move> finalMoves, Function<Coordinate,Collection<Coordinate>> coordinateProducer) {
@@ -43,14 +54,15 @@ public class MoveRules {
 			// Get the next jump moves.
 			Collection<Move> nextMovesForThisMove =
 					coordinateProducer.apply(move.getNextPosition()).stream()
-					.filter(c -> board.isValidPosition(c))
-					.filter(c-> board.getPieceAt(c).isPresent())
+					.filter(c-> isValidCoordinate(board,c))
+					.filter(c-> pieceIsJumpable(board, piece, c))
+					.filter(c-> nextSpaceIsLandable(board, piece, move.getNextPosition(), c))
 					.map(c -> Move.multiJumpMove(board, piece, move.getNextPosition(), c, move))
 					.collect(Collectors.toList());
-			
+
 			// And undo the move
 			move.unExecute();
-			
+
 			// If there are any, then we replace this move with those moves AND THEIR CONTINUED MOVES
 			if (!nextMovesForThisMove.isEmpty()) {
 				searchJumps(nextMovesForThisMove, board, piece, finalMoves, coordinateProducer);
@@ -61,7 +73,7 @@ public class MoveRules {
 			}
 		}
 	}
-	
+
 	public Collection<Move> getMovesForColor(Color color, Board board) {
 
 		// For each piece the player owns:

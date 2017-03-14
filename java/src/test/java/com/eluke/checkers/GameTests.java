@@ -70,7 +70,7 @@ public class GameTests {
 		MoveRules rules = mock(MoveRules.class);
 		Game game = new Game(player1, player2, rules);
 
-		Move simpleMove = Move.simpleMove(game.board, blackPiece(), new Coordinate(2,0), new Coordinate(3,1));
+		Move simpleMove = Move.simpleMove(game.board, BlackPiece(), new Coordinate(2,0), new Coordinate(3,1));
 		Collection<Move> moves = Arrays.asList(simpleMove);
 		when(rules.getMovesForColor(Color.Black, game.board)).thenReturn(moves);
 		when(player1.selectMove(moves, game.board)).thenReturn(simpleMove);
@@ -96,7 +96,12 @@ public class GameTests {
 		assertThat(winner).isEqualTo(player2);
 	}
 
-	private SinglePiece blackPiece() {
+	
+	private SinglePiece BlackPiece() {
 		return new SinglePiece(Color.Black, SinglePiece.FORWARD);
+	}
+	
+	private SinglePiece RedPiece() {
+		return new SinglePiece(Color.Red, SinglePiece.FORWARD);
 	}
 }
