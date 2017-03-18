@@ -8,14 +8,14 @@ import java.util.Collection;
 public class ConsolePlayer implements Player {
 
 	@Override
-	public Move selectMove(Collection<Move> moves, Board board) {
+	public Move selectMove(final Collection<Move> moves, final Board board) {
 		System.out.println("Select a move: ");
-		
+
 		Move[] movesAsArray = moves.toArray(new Move[0]);
 		for (int i = 0; i < movesAsArray.length; i++) {
 			System.out.println("  " + i + ": " + movesAsArray[i]);
 		}
-		
+
 		BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
 		while (true) {
 			System.out.print("Enter the number of choice: ");

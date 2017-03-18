@@ -6,7 +6,7 @@ import java.util.Observer;
 class ConsoleObserver implements Observer {
 
 	@Override
-	public void update(Observable o, Object arg) {
+	public void update(final Observable o, final Object arg) {
 		if (arg instanceof GameEvents.PlayerTurn) {
 			GameEvents.PlayerTurn pt = (GameEvents.PlayerTurn)arg;
 			System.out.println("Turn " + pt.turn + ", Player " + pt.player + " (" + pt.color +")");

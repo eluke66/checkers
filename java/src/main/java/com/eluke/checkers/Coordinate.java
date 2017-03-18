@@ -13,14 +13,14 @@ public class Coordinate {
 	public String toString() {
 		return "(" + row + ", " + col + ")";
 	}
-	public Coordinate(int row, int col) {
+	public Coordinate(final int row, final int col) {
 		this.row = row;
 		this.col = col;
 	}
-	
-	public static Coordinate extending(Coordinate c1, Coordinate c2) {
-		int newRow = (c2.getRow()-c1.getRow()) + c2.getRow(); 
-		int newCol = (c2.getCol()-c1.getCol()) + c2.getCol(); 
+
+	public static Coordinate extending(final Coordinate c1, final Coordinate c2) {
+		int newRow = (c2.getRow()-c1.getRow()) + c2.getRow();
+		int newCol = (c2.getCol()-c1.getCol()) + c2.getCol();
 		return new Coordinate(newRow, newCol);
 	}
 	@Override
@@ -32,7 +32,7 @@ public class Coordinate {
 		return result;
 	}
 	@Override
-	public boolean equals(Object obj) {
+	public boolean equals(final Object obj) {
 		if (this == obj)
 			return true;
 		if (obj == null)
@@ -46,5 +46,5 @@ public class Coordinate {
 			return false;
 		return true;
 	}
-	
+
 }

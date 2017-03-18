@@ -11,11 +11,11 @@ public class Game extends Observable {
 	private final MoveRules moveRules;
 	private final Map<Player,Color> colorsPerPlayer;
 
-	public Game(Player player1, Player player2) {
+	public Game(final Player player1, final Player player2) {
 		this(player1, player2,new MoveRules());
 	}
 
-	public Game(Player player1, Player player2, MoveRules moveRules) {
+	public Game(final Player player1, final Player player2, final MoveRules moveRules) {
 		board = new Board();
 		players = new Player[]{player1, player2};
 		this.moveRules = moveRules;
@@ -46,23 +46,23 @@ public class Game extends Observable {
 
 		Player winningPlayer = players[otherPlayer(whichPlayer)];
 		emit(new GameEvents.GameFinished(whichTurn, winningPlayer));
-		
+
 		return winningPlayer;
 	}
 
-	private void emit(Object object) {
+	private void emit(final Object object) {
 		setChanged();
 		notifyObservers(object);
 	}
-	private boolean playerHasValidMoves(Collection<Move> moves) {
+	private boolean playerHasValidMoves(final Collection<Move> moves) {
 		return !moves.isEmpty();
 	}
 
-	private int otherPlayer(int player) {
+	private int otherPlayer(final int player) {
 		return (player+1) % 2;
 	}
 
-	static void putPiecesOnTheBoard(Board board) {
+	static void putPiecesOnTheBoard(final Board board) {
 		final int NUM_PIECES_PER_PLAYER = 12;
 
 		int piecesPerRow = board.size()/2;
@@ -87,13 +87,11 @@ public class Game extends Observable {
 		}
 	}
 
-	public static void main(String[] args) {
+	private static void profile() {
 		long totalTimeNs = 0;
 		final int NUM_GAMES = 1000000;
 		for (int i = 0; i < NUM_GAMES; i++) {
 			Game game = new Game(new RandomOptionPlayer(), new RandomOptionPlayer());
-			ConsoleObserver o = new ConsoleObserver();
-			//game.addObserver(o);
 
 			try {
 				long start = System.nanoTime();
@@ -111,6 +109,23 @@ public class Game extends Observable {
 		}
 		long timeInMs = (totalTimeNs / 1000000);
 		System.err.println("Executed " + NUM_GAMES + " in " + timeInMs + " ms, or " + (timeInMs / (float)NUM_GAMES) + " ms/game" );
+	}
+
+	private static void playConsole() {
+		Game game = new Game(new ConsolePlayer(), new ConsolePlayer());
+		ConsoleObserver o = new ConsoleObserver();
+		game.addObserver(o);
+
+		game.play();
+	}
+
+	public static void main(final String[] args) {
+		if (args.length == 0) {
+			profile();
+		}
+		else {
+			playConsole();
+		}
 	}
 
 }

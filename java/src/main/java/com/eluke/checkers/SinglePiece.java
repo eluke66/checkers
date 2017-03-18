@@ -7,26 +7,26 @@ public class SinglePiece extends Piece {
 	public static final int FORWARD = 1;
 	public static final int REVERSE = -1;
 	private final int forwardDirection;
-	
-	public SinglePiece(Color color, int direction) {
+
+	public SinglePiece(final Color color, final int direction) {
 		super(color);
 		this.forwardDirection = direction;
 	}
 
 	@Override
-	public Collection<Move> getSimpleMoves(Board board, Coordinate coordinate) {
+	public Collection<Move> getSimpleMoves(final Board board, final Coordinate coordinate) {
 		return MoveRules.getSimpleMoves(board, this, coordinate, this::getFollowingCoords);
 	}
-	
-	private Collection<Coordinate> getFollowingCoords(Coordinate c) {
+
+	private Collection<Coordinate> getFollowingCoords(final Coordinate c) {
 		int nextRow = c.getRow()+forwardDirection;
 		return Arrays.asList(
 				new Coordinate(nextRow, c.getCol()+1),
 				new Coordinate(nextRow, c.getCol()-1));
 	}
-	
+
 	@Override
-	public Collection<Move> getJumpMoves(Board board, Coordinate coordinate) {
+	public Collection<Move> getJumpMoves(final Board board, final Coordinate coordinate) {
 		return MoveRules.getJumpMoves(board, this, coordinate, this::getFollowingCoords);
 	}
 
@@ -44,7 +44,7 @@ public class SinglePiece extends Piece {
 	}
 
 	@Override
-	public boolean equals(Object obj) {
+	public boolean equals(final Object obj) {
 		if (this == obj)
 			return true;
 		if (obj == null)
@@ -56,7 +56,8 @@ public class SinglePiece extends Piece {
 			return false;
 		return true;
 	}
-	
+
+	@Override
 	public String toString() {
 		return this.color() + " Piece";
 	}

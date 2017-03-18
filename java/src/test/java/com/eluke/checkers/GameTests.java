@@ -62,7 +62,7 @@ public class GameTests {
 
 		verify(rules).getMovesForColor(eq(Color.Black), any(Board.class));
 	}
-	
+
 	@Test
 	public void redMovesAfterBlack() {
 		Player player1 = mock(Player.class);
@@ -79,29 +79,25 @@ public class GameTests {
 
 		verify(rules).getMovesForColor(eq(Color.Black), any(Board.class));
 		verify(rules).getMovesForColor(eq(Color.Red), any(Board.class));
-		
+
 		assertThat(winner).isEqualTo(player1);
 	}
-	
+
 	@Test
 	public void whenAPlayerCannotMoveThenOtherPlayerWins() {
 		Player player1 = mock(Player.class);
 		Player player2 = mock(Player.class);
 		MoveRules rules = mock(MoveRules.class);
-		
+
 		Game game = new Game(player1, player2, rules);
 		when(rules.getMovesForColor(eq(Color.Black), any(Board.class))).thenReturn(Lists.emptyList());
-		
+
 		Player winner = game.play();
 		assertThat(winner).isEqualTo(player2);
 	}
 
-	
 	private SinglePiece BlackPiece() {
 		return new SinglePiece(Color.Black, SinglePiece.FORWARD);
 	}
-	
-	private SinglePiece RedPiece() {
-		return new SinglePiece(Color.Red, SinglePiece.FORWARD);
-	}
+
 }

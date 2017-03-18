@@ -4,13 +4,13 @@ import java.util.Collection;
 
 public abstract class Piece {
 	private final Color color;
-	
-	public Piece(Color color) {
+
+	public Piece(final Color color) {
 		this.color = color;
 	}
-	
-	public Color color() { 
-		return this.color; 
+
+	public Color color() {
+		return this.color;
 	}
 
 	public abstract Collection<Move> getSimpleMoves(Board board, Coordinate coordinate);
@@ -28,7 +28,7 @@ public abstract class Piece {
 	}
 
 	@Override
-	public boolean equals(Object obj) {
+	public boolean equals(final Object obj) {
 		if (this == obj)
 			return true;
 		if (obj == null)

@@ -5,21 +5,21 @@ import java.util.Collection;
 
 public class KingPiece extends Piece {
 
-	public KingPiece(Piece piece) {
+	public KingPiece(final Piece piece) {
 		super(piece.color());
 	}
-	
-	public KingPiece(Color color) {
+
+	public KingPiece(final Color color) {
 		super(color);
 	}
 
 	@Override
-	public Collection<Move> getSimpleMoves(Board board, Coordinate coordinate) {
+	public Collection<Move> getSimpleMoves(final Board board, final Coordinate coordinate) {
 		return MoveRules.getSimpleMoves(board, this, coordinate, this::getFollowingCoords);
 	}
 
 	@Override
-	public Collection<Move> getJumpMoves(Board board, Coordinate coordinate) {
+	public Collection<Move> getJumpMoves(final Board board, final Coordinate coordinate) {
 		return MoveRules.getJumpMoves(board, this, coordinate, this::getFollowingCoords);
 	}
 
@@ -28,14 +28,15 @@ public class KingPiece extends Piece {
 		return false;
 	}
 
-	private Collection<Coordinate> getFollowingCoords(Coordinate c) {
+	private Collection<Coordinate> getFollowingCoords(final Coordinate c) {
 		return Arrays.asList(
 				new Coordinate(c.getRow()+1, c.getCol()+1),
 				new Coordinate(c.getRow()+1, c.getCol()-1),
 				new Coordinate(c.getRow()-1, c.getCol()+1),
 				new Coordinate(c.getRow()-1, c.getCol()-1));
 	}
-	
+
+	@Override
 	public String toString() {
 		return this.color() + " King";
 	}
