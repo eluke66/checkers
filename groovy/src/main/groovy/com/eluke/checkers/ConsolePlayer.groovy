@@ -1,7 +1,5 @@
 package com.eluke.checkers
 
-import java.util.Collection
-
 class ConsolePlayer implements Player {
 
 	@Override
@@ -13,7 +11,7 @@ class ConsolePlayer implements Player {
 		BufferedReader reader = new BufferedReader(new InputStreamReader(System.in))
 		while (true) {
 			println "Enter the number of choice: "
-			String input = null;
+			String input = null
 			try {
 				input = reader.readLine()
 				int choice = Integer.parseInt(input)
