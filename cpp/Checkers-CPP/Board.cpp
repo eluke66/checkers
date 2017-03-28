@@ -28,7 +28,6 @@ Board::Board() : Board(BOARD_SIZE) {
 
 Board::Board(int size) {
 	board.resize(size, std::vector<const Piece *>(size));
-	//board.resize(size, std::vector<Piece *>(size, NO_PIECE));
 }
 
 Board::~Board() {
@@ -47,16 +46,12 @@ const Piece* Board::getPieceAt(const Coordinate& coordinate) const {
 }
 
 void Board::removePieceAt(const Coordinate& coordinate) {
-	if (!isValidPosition(coordinate)) {
-		throw std::invalid_argument("Cannot remove piece at " + (std::string)coordinate + " as the location is invalid");
-	}
+	VALIDATE_POSITION(coordinate, "remove");
 	board[coordinate.getRow()][coordinate.getCol()] = NULL;
 }
 
 void Board::placePieceAt(const Piece* piece, const Coordinate& coordinate) {
-	if (!isValidPosition(coordinate)) {
-		throw std::invalid_argument("Cannot remove place at " + (std::string)coordinate + " as the location is invalid");
-	}
+	VALIDATE_POSITION(coordinate, "place");
 	board[coordinate.getRow()][coordinate.getCol()] = piece;
 }
 

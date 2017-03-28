@@ -24,11 +24,11 @@ protected:
 TEST_F(SinglePieces, HaveTwoForwardMoves) {
 	Coordinate blackLocation(0, 2);
 	board.placePieceAt(blackPiece, blackLocation);
-	std::list<Move *> moves = blackPiece->getSimpleMoves(board, blackLocation);
+	Moves moves = blackPiece->getSimpleMoves(board, blackLocation);
 	ASSERT_EQ(2, moves.size());
 
-	for (std::list<Move *>::iterator it = moves.begin(); it != moves.end(); ++it) {
-		Move *move = *it;
+	for (Moves::iterator it = moves.begin(); it != moves.end(); ++it) {
+		MoveType move = *it;
 		ASSERT_EQ(1, move->getTo().getRow());
 		ASSERT_TRUE(move->getTo().getCol() == 1 || move->getTo().getCol() == 3);
 		ASSERT_EQ(blackLocation, move->getFrom());
@@ -40,8 +40,8 @@ TEST_F(SinglePieces, HaveTwoForwardMoves) {
 	moves = red->getSimpleMoves(board, redLocation);
 	ASSERT_EQ(2, moves.size());
 
-	for (std::list<Move *>::iterator it = moves.begin(); it != moves.end(); ++it) {
-		Move *move = *it;
+	for (Moves::iterator it = moves.begin(); it != moves.end(); ++it) {
+		MoveType move = *it;
 		ASSERT_EQ(3, move->getTo().getRow());
 		ASSERT_TRUE(move->getTo().getCol() == 1 || move->getTo().getCol() == 3);
 		ASSERT_EQ(redLocation, move->getFrom());
@@ -55,7 +55,7 @@ TEST_F(SinglePieces, CannotJumpWhenBlocked) {
 	board.placePieceAt(redPiece(), Coordinate(1,1));
 	board.placePieceAt(redPiece(), Coordinate(2,2));
 
-	std::list<Move *> moves = blackPiece->getJumpMoves(board, blackLocation);
+	Moves moves = blackPiece->getJumpMoves(board, blackLocation);
 	ASSERT_EMPTY(moves);
 }
 
@@ -64,7 +64,7 @@ TEST_F(SinglePieces, CannotJumpOwnMan) {
 	board.placePieceAt(blackPiece, blackLocation);
 	board.placePieceAt(new SinglePiece(Color::Black, SinglePiece::FORWARD), Coordinate(1,1));
 
-	std::list<Move *> moves = blackPiece->getJumpMoves(board, blackLocation);
+	Moves moves = blackPiece->getJumpMoves(board, blackLocation);
 	ASSERT_EMPTY(moves);
 }
 
@@ -74,7 +74,7 @@ TEST_F(SinglePieces, CannotJumpOffTheBoardOrWhenBlocked) {
 	board.placePieceAt(blackPiece, blackLocation);
 	board.placePieceAt(redPiece(), Coordinate(1,1));
 
-	std::list<Move *> moves = blackPiece->getSimpleMoves(board, blackLocation);
+	Moves moves = blackPiece->getSimpleMoves(board, blackLocation);
 	ASSERT_EMPTY(moves);
 
 }
@@ -87,11 +87,10 @@ TEST_F(SinglePieces, CanJumpMoreThanOnceAndThosePiecesAreRemoved) {
 	board.placePieceAt(red1, Coordinate(1,1));
 	board.placePieceAt(red2, Coordinate(3,3));
 
-	std::list<Move *> moves = blackPiece->getJumpMoves(board, blackLocation);
+	Moves moves = blackPiece->getJumpMoves(board, blackLocation);
 	ASSERT_EQ(1, moves.size());
 
-	Move *move = *(moves.begin());
-	move->execute();
+	EXECUTE_FIRST_MOVE(moves);
 
 	ASSERT_EMPTY(board.getPiecesForColor(Color::Red));
 	ASSERT_NULL(board.getPieceAt(Coordinate(1,1)));
@@ -110,11 +109,11 @@ TEST_F(SinglePieces, CanHaveTwoForwardSingleJumps) {
 	board.placePieceAt(red1, Coordinate(1,1));
 	board.placePieceAt(red2, Coordinate(1,3));
 
-	std::list<Move *> moves = blackPiece->getJumpMoves(board, blackLocation);
+	Moves moves = blackPiece->getJumpMoves(board, blackLocation);
 	ASSERT_EQ(2, moves.size());
 
-	for (std::list<Move *>::iterator it = moves.begin(); it != moves.end(); ++it) {
-		Move *move = *it;
+	for (Moves::iterator it = moves.begin(); it != moves.end(); ++it) {
+		MoveType move = *it;
 		ASSERT_EQ(2, move->getTo().getRow());
 		ASSERT_TRUE(move->getTo().getCol() == 0 || move->getTo().getCol() == 4);
 		ASSERT_EQ(blackLocation, move->getFrom());
@@ -131,11 +130,11 @@ TEST_F(SinglePieces, CanHaveMultipleForwardMultiJumps) {
 	board.placePieceAt(redPiece2, Coordinate(1,3));
 	board.placePieceAt(redPiece3, Coordinate(3,5));
 
-	std::list<Move *> moves = blackPiece->getJumpMoves(board, blackLocation);
+	Moves moves = blackPiece->getJumpMoves(board, blackLocation);
 	ASSERT_EQ(2, moves.size());
 
-	for (std::list<Move *>::iterator it = moves.begin(); it != moves.end(); ++it) {
-		Move *move = *it;
+	for (Moves::iterator it = moves.begin(); it != moves.end(); ++it) {
+		MoveType move = *it;
 		ASSERT_TRUE(move->getTo() == Coordinate(2,0) || move->getTo() == Coordinate(4,6));
 	}
 }
@@ -145,11 +144,10 @@ TEST_F(SinglePieces, WhenJumpsIntoTheBackRowItIsKinged) {
 	board.placePieceAt(blackPiece, blackLocation);
 	board.placePieceAt(redPiece(), Coordinate(board.size()-2,2));
 
-	auto moves = blackPiece->getJumpMoves(board, blackLocation);
+	Moves moves = blackPiece->getJumpMoves(board, blackLocation);
 	ASSERT_EQ(1, moves.size());
 
-	Move *move = *(moves.begin());
-	move->execute();
+	EXECUTE_FIRST_MOVE(moves);
 
 	const Piece *piece = board.getPieceAt(Coordinate(board.size()-1, 3));
 	ASSERT_PRESENT(piece);
@@ -162,11 +160,10 @@ TEST_F(SinglePieces, CanJumpOnceAndThatPieceIsRemoved) {
 	board.placePieceAt(blackPiece, blackLocation);
 	board.placePieceAt(redPiece(), Coordinate(1,1));
 
-	std::list<Move *> moves = blackPiece->getJumpMoves(board, blackLocation);
+	Moves moves = blackPiece->getJumpMoves(board, blackLocation);
 	ASSERT_EQ(1, moves.size());
 
-	Move *move = *(moves.begin());
-	move->execute();
+	EXECUTE_FIRST_MOVE(moves);
 
 	ASSERT_EMPTY(board.getPiecesForColor(Color::Red));
 	ASSERT_NULL(board.getPieceAt(Coordinate(1,1)));
@@ -181,11 +178,10 @@ TEST_F(SinglePieces, CanJumpOnceAndThatPieceIsRemoved) {
 TEST_F(SinglePieces, WhenMoveIntoTheBackRowItIsKinged) {
 	Coordinate blackLocation(board.size()-2, 0);
 	board.placePieceAt(blackPiece, blackLocation);
-	auto moves = blackPiece->getSimpleMoves(board, blackLocation);
+	Moves moves = blackPiece->getSimpleMoves(board, blackLocation);
 	ASSERT_EQ(1, moves.size());
 
-	Move *move = *(moves.begin());
-	move->execute();
+	EXECUTE_FIRST_MOVE(moves);
 
 	const Piece *piece = board.getPieceAt(Coordinate(board.size()-1, 1));
 	ASSERT_PRESENT(piece);

@@ -11,10 +11,10 @@
 #include <list>
 
 #include "Color.h"
+#include "CheckerTypes.h"
 
 class Board;
 class Coordinate;
-class Move;
 
 class Piece {
 public:
@@ -24,8 +24,8 @@ public:
 
 	virtual bool canBeKinged() const = 0;
 
-	virtual std::list<Move *> getSimpleMoves(Board &board, const Coordinate &coordinate) const = 0;
-	virtual std::list<Move *> getJumpMoves(Board &board, const Coordinate &coordinate) const = 0;
+	virtual Moves getSimpleMoves(Board &board, const Coordinate &coordinate) const = 0;
+	virtual Moves getJumpMoves(Board &board, const Coordinate &coordinate) const = 0;
 
 	class CoordinateProducer {
 	public:

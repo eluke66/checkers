@@ -9,6 +9,7 @@
 #define MOVE_H_
 
 #include "Coordinate.h"
+#include "CheckerTypes.h"
 
 class Piece;
 class Board;
@@ -69,13 +70,13 @@ private:
 
 class MultiJumpMove : public JumpMove {
 public:
-	MultiJumpMove(Board &board, const Piece *piece, const Coordinate &from, const Coordinate &to, const Coordinate& existingPieceLocation, Move* previousMove) :
+	MultiJumpMove(Board &board, const Piece *piece, const Coordinate &from, const Coordinate &to, const Coordinate& existingPieceLocation, MoveType previousMove) :
 		JumpMove(board,piece,from,to,existingPieceLocation), previousMove(previousMove) {}
 
 	virtual void execute();
 	virtual void unExecute();
 	virtual std::string toString() const;
 private:
-	Move *previousMove;
+	MoveType previousMove;
 };
 #endif /* MOVE_H_ */

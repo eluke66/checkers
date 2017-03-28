@@ -9,12 +9,13 @@
 #define CONSOLEPLAYER_H_
 
 #include "Player.h"
+#include "CheckerTypes.h"
 
 class ConsolePlayer: public Player {
 public:
 	ConsolePlayer();
 	virtual ~ConsolePlayer();
-	virtual Move * selectMove(std::list<Move *> &moves, Board &board) const;
+	virtual MoveType selectMove(Moves &moves, Board &board) const;
 
 };
 

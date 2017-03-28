@@ -9,6 +9,7 @@
 #define KINGPIECE_H_
 
 #include "Piece.h"
+#include "CheckerTypes.h"
 
 class KingPiece: public Piece {
 public:
@@ -17,8 +18,8 @@ public:
 	virtual ~KingPiece() {}
 
 	virtual bool canBeKinged() const { return false; }
-	virtual std::list<Move *> getSimpleMoves(Board &board, const Coordinate &coordinate) const;
-	virtual std::list<Move *> getJumpMoves(Board &board, const Coordinate &coordinate) const;
+	virtual Moves getSimpleMoves(Board &board, const Coordinate &coordinate) const;
+	virtual Moves getJumpMoves(Board &board, const Coordinate &coordinate) const;
 private:
 	std::list<Coordinate> getCoordinates(const Coordinate &coordinate) const;
 };

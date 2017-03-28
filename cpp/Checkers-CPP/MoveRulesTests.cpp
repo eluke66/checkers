@@ -24,11 +24,10 @@ protected:
 TEST_F(MoveRulesTests, ifCapturingMovesAreAvailableTheyMustBePickedForSimple) {
 	board.placePieceAt(blackPiece(), Coordinate(0,2));
 	board.placePieceAt(redPiece(), Coordinate(1,1));
-	std::list<Move *> moves = rules.getMovesForColor(Color::Black, board);
+	Moves moves = rules.getMovesForColor(Color::Black, board);
 	ASSERT_EQ(1, moves.size());
 
-	Move *move = *(moves.begin());
-	move->execute();
+	EXECUTE_FIRST_MOVE(moves);
 
 	ASSERT_EMPTY(board.getPiecesForColor(Color::Red));
 }
@@ -38,11 +37,10 @@ TEST_F(MoveRulesTests, ifCapturingMovesAreAvailableTheyMustBePickedForMultiJumps
 	board.placePieceAt(redPiece(), Coordinate(1,3));
 	board.placePieceAt(redPiece(), Coordinate(3,5));
 
-	std::list<Move *> moves = rules.getMovesForColor(Color::Black, board);
+	Moves moves = rules.getMovesForColor(Color::Black, board);
 	ASSERT_EQ(1, moves.size());
 
-	Move *move = *(moves.begin());
-	move->execute();
+	EXECUTE_FIRST_MOVE(moves);
 
 	ASSERT_EMPTY(board.getPiecesForColor(Color::Red));
 

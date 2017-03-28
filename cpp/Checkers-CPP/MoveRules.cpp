@@ -24,11 +24,11 @@ MoveRules::~MoveRules() {
 	// TODO Auto-generated destructor stub
 }
 
-std::list<Move *> MoveRules::getSimpleMovesForCoordinates(Board& board,
+Moves MoveRules::getSimpleMovesForCoordinates(Board& board,
 		const Piece* piece, const Coordinate& coordinate,
 		std::list<Coordinate> coordinates) {
 
-	std::list<Move *> moves;
+	Moves moves;
 	std::list<Coordinate>::const_iterator iterator;
 	for (iterator = coordinates.begin(); iterator != coordinates.end(); ++iterator) {
 		Coordinate c = *iterator;
@@ -65,7 +65,7 @@ Move* MoveRules::getMultiJumpMove(Board& board, const Piece* piece,
 	return Move::multiJumpMove(board,piece,from,to,previousMove);
 }
 
-MoveExecutor::MoveExecutor(Move *move) : move(move) {
+MoveExecutor::MoveExecutor(MoveType move) : move(move) {
 	move->execute();
 }
 
@@ -77,14 +77,14 @@ Coordinate MoveRules::getLandingSpot(Move* move) {
 	return move->getTo();
 }
 
-std::list<Move*> MoveRules::getMovesForColor(Color color, Board& board) {
+Moves MoveRules::getMovesForColor(Color color, Board& board) {
 	// For each piece the player owns:
 	std::list<Board::PlacedPiece> pieces = board.getPiecesForColor(color);
 	// Do jumps if available
-	std::list<Move*> moves;
+	Moves moves;
 	for (std::list<Board::PlacedPiece>::const_iterator it = pieces.begin(); it != pieces.end(); it++) {
 		Board::PlacedPiece piece= *it;
-		std::list<Move*> jumps = piece.getJumpMoves(board);
+		Moves jumps = piece.getJumpMoves(board);
 		moves.insert(moves.begin(), jumps.begin(), jumps.end());
 	}
 
@@ -95,7 +95,7 @@ std::list<Move*> MoveRules::getMovesForColor(Color color, Board& board) {
 	// Otherwise do simple moves.
 	for (std::list<Board::PlacedPiece>::const_iterator it = pieces.begin(); it != pieces.end(); it++) {
 		Board::PlacedPiece piece= *it;
-		std::list<Move*> simpleMoves = piece.getSimpleMoves(board);
+		Moves simpleMoves = piece.getSimpleMoves(board);
 		if (simpleMoves.size() > 0) {
 			moves.insert(moves.begin(), simpleMoves.begin(), simpleMoves.end());
 		}

@@ -40,7 +40,7 @@ private:
 	end_signal_t endSignal;
 
 	static void putPiecesOnTheBoard(Board &board);
-	bool playerHasValidMoves(std::list<Move *> moves) {
+	bool playerHasValidMoves(const Moves& moves) {
 		return moves.size() > 0;
 	}
 

@@ -47,21 +47,21 @@ TEST_F(GameTests, boardIs8x8) {
 
 class StubPlayer : public Player {
 public:
-	StubPlayer(Move * moveToSelect) : move(moveToSelect) {}
-	virtual Move * selectMove(std::list<Move *> &moves, Board &board) const {
+	StubPlayer(MoveType moveToSelect) : move(moveToSelect) {}
+	virtual MoveType selectMove(Moves &moves, Board &board) const {
 		return move;
 	}
 private:
-	Move * move;
+	MoveType move;
 };
 
 class StubMoveRules1 : public MoveRules {
 public:
 	bool isOkay = false;
 
-	std::list<Move*> getMovesForColor(Color color, Board& board) {
+	Moves getMovesForColor(Color color, Board& board) {
 		if (color == Color::Black) { isOkay = true; }
-		return std::list<Move *>();
+		return Moves();
 	}
 };
 
@@ -78,23 +78,23 @@ TEST_F(GameTests, blackMovesFirst) {
 
 class StubMoveRules2: public MoveRules {
 public:
-	StubMoveRules2(Move *move) : move(move) {}
+	StubMoveRules2(MoveType move) : move(move) {}
 	int calls = 0;
 
-	std::list<Move*> getMovesForColor(Color color, Board& board) {
+	Moves getMovesForColor(Color color, Board& board) {
 		calls++;
-		std::list<Move *> returnValue;
+		Moves returnValue;
 		if (color == Color::Black) {
 			returnValue.push_back(move);
 		}
 		return returnValue;
 	}
 private:
-	Move * move;
+	MoveType move;
 };
 
 TEST_F(GameTests, redMovesAfterBlack) {
-	Move * move = Move::simpleMove(board, new SinglePiece(Color::Black, SinglePiece::FORWARD), Coordinate(2,0), Coordinate(3,1));
+	MoveType move = Move::simpleMove(board, new SinglePiece(Color::Black, SinglePiece::FORWARD), Coordinate(2,0), Coordinate(3,1));
 	StubPlayer * player1 = new StubPlayer(move);
 	StubPlayer * player2 = new StubPlayer(nullptr);
 	StubMoveRules2 * moveRules = new StubMoveRules2(move);

@@ -11,6 +11,7 @@
 #include <list>
 #include <boost/iterator/filter_iterator.hpp>
 #include "Color.h"
+#include "CheckerTypes.h"
 
 class Board;
 class Coordinate;
@@ -23,50 +24,48 @@ public:
 	virtual ~MoveRules();
 
 	template<typename CoordinateProducer, typename PieceType>
-	static std::list<Move *> getSimpleMoves(Board &board, const PieceType*piece, const Coordinate &coordinate, CoordinateProducer coordProducer);
+	static Moves getSimpleMoves(Board &board, const PieceType*piece, const Coordinate &coordinate, CoordinateProducer coordProducer);
 
 
 	template<typename CoordinateProducer, typename PieceType>
-	static std::list<Move *> getJumpMoves(Board &board, const PieceType *piece, const Coordinate &coordinate, CoordinateProducer coordProducer);
+	static Moves getJumpMoves(Board &board, const PieceType *piece, const Coordinate &coordinate, CoordinateProducer coordProducer);
 
-	virtual std::list<Move *> getMovesForColor(Color color, Board &board);
+	virtual Moves getMovesForColor(Color color, Board &board);
 private:
-	static std::list<Move *> getSimpleMovesForCoordinates(Board& board, const Piece* piece, const Coordinate& coordinate, std::list<Coordinate> Coordinates);
+	static Moves getSimpleMovesForCoordinates(Board& board, const Piece* piece, const Coordinate& coordinate, std::list<Coordinate> Coordinates);
 	static bool pieceIsJumpable(Board &board, const Piece *piece, const Coordinate &coordinate );
 	static bool nextSpaceIsLandable(Board &board, const Piece *piece, const Coordinate &from, const Coordinate &to );
 	static bool isValidPosition(Board &board, const Coordinate &coordinate );
-	static Move * getJumpMove(Board &board, const Piece *piece, const Coordinate &from, const Coordinate &to );
-	static Move * getMultiJumpMove(Board &board, const Piece *piece, const Coordinate &from, const Coordinate &to, Move *previousMove);
-	static Coordinate getLandingSpot(Move *move);
-
-
+	static MoveType getJumpMove(Board &board, const Piece *piece, const Coordinate &from, const Coordinate &to );
+	static MoveType getMultiJumpMove(Board &board, const Piece *piece, const Coordinate &from, const Coordinate &to, MoveType previousMove);
+	static Coordinate getLandingSpot(MoveType move);
 
 	template<typename CoordinateProducer, typename PieceType>
-	static void searchJumps(std::list<Move *>& moves, Board &board, const PieceType *piece, std::list<Move *>&finalMoves, CoordinateProducer coordProducer);
+	static void searchJumps(Moves& moves, Board &board, const PieceType *piece, Moves&finalMoves, CoordinateProducer coordProducer);
 };
 
 class MoveExecutor {
 public:
-	MoveExecutor(Move *move);
+	MoveExecutor(MoveType move);
 	~MoveExecutor();
 private:
-	Move *move;
+	MoveType move;
 };
 
 template<typename CoordinateProducer, typename PieceType>
-inline std::list<Move *> MoveRules::getSimpleMoves(Board& board,
+inline Moves MoveRules::getSimpleMoves(Board& board,
 		const PieceType* piece, const Coordinate& coordinate,
 		CoordinateProducer coordProducer) {
 	return getSimpleMovesForCoordinates(board,piece,coordinate,coordProducer(piece, coordinate));
 }
 
 template<typename CoordinateProducer, typename PieceType>
-inline std::list<Move *> MoveRules::getJumpMoves(Board& board,
+inline Moves MoveRules::getJumpMoves(Board& board,
 		const PieceType* piece, const Coordinate& coordinate,
 		CoordinateProducer coordProducer) {
 
 	std::list<Coordinate> coordinates = coordProducer(piece, coordinate);
-	std::list<Move *> initialMoves;
+	Moves initialMoves;
 	std::list<Coordinate>::const_iterator iterator;
 	for (iterator = coordinates.begin(); iterator != coordinates.end(); ++iterator) {
 		Coordinate c = *iterator;
@@ -75,7 +74,7 @@ inline std::list<Move *> MoveRules::getJumpMoves(Board& board,
 		}
 	}
 
-	std::list<Move *> finalMoves;
+	Moves finalMoves;
 	searchJumps(initialMoves, board, piece, finalMoves, coordProducer);
 	return finalMoves;
 }
@@ -85,12 +84,12 @@ inline void MoveRules::searchJumps(std::list<Move*>& moves, Board& board,
 		const PieceType* piece, std::list<Move*>& finalMoves,
 		CoordinateProducer coordProducer) {
 	// For each move
-	std::list<Move *>::const_iterator iterator;
+	Moves::const_iterator iterator;
 	for (iterator = moves.begin(); iterator != moves.end(); ++iterator) {
-		Move *move = *iterator;
+		MoveType move = *iterator;
 
 		// Get the next jump moves.
-		std::list<Move *> nextMovesForThisMove;
+		Moves nextMovesForThisMove;
 		Coordinate landingSpot = getLandingSpot(move);
 
 		// Let's assume we execute the move.

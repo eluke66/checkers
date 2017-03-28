@@ -14,7 +14,7 @@ class RandomChoicePlayer: public Player {
 public:
 	RandomChoicePlayer();
 	virtual ~RandomChoicePlayer();
-	virtual Move * selectMove(std::list<Move *> &moves, Board &board) const;
+	virtual MoveType selectMove(Moves &moves, Board &board) const;
 };
 
 #endif /* RANDOMCHOICEPLAYER_H_ */

@@ -19,8 +19,8 @@ public:
 
 
 	bool canBeKinged() const { return true; }
-	std::list<Move *> getSimpleMoves(Board &board, const Coordinate &coordinate) const;
-	std::list<Move *> getJumpMoves(Board &board, const Coordinate &coordinate) const;
+	Moves getSimpleMoves(Board &board, const Coordinate &coordinate) const;
+	Moves getJumpMoves(Board &board, const Coordinate &coordinate) const;
 
 private:
 	const int direction;

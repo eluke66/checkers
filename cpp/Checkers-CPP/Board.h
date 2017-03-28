@@ -13,6 +13,7 @@
 #include "Color.h"
 #include "Piece.h"
 #include "Coordinate.h"
+#include "CheckerTypes.h"
 
 #ifndef BOARD_H_
 #define BOARD_H_
@@ -34,11 +35,11 @@ public:
 			piece(other.piece), coordinate(other.coordinate) {
 		}
 
-		std::list<Move *> getSimpleMoves(Board &board) {
+		Moves getSimpleMoves(Board &board) {
 			return piece->getSimpleMoves(board, coordinate);
 		}
 
-		std::list<Move *> getJumpMoves(Board &board) {
+		Moves getJumpMoves(Board &board) {
 			return piece->getJumpMoves(board, coordinate);
 		}
 

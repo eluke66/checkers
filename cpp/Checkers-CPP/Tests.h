@@ -19,6 +19,9 @@
 #define ASSERT_NULL(item) ASSERT_EQ(nullptr, (item))
 #define ASSERT_PRESENT(item) ASSERT_NE(nullptr, (item))
 
+#define EXECUTE_FIRST_MOVE(moves) \
+		MoveType move = *(moves.begin()); \
+		move->execute();
 
 
 

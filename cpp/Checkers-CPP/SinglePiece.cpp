@@ -17,13 +17,13 @@ SinglePiece::SinglePiece(Color color, int direction) : Piece(color), direction(d
 SinglePiece::~SinglePiece() {
 }
 
-std::list<Move *> SinglePiece::getSimpleMoves(Board& board,
+Moves SinglePiece::getSimpleMoves(Board& board,
 		const Coordinate& coordinate) const {
 
 	return MoveRules::getSimpleMoves(board, this, coordinate, std::mem_fn (&SinglePiece::getCoordinates));
 }
 
-std::list<Move *> SinglePiece::getJumpMoves(Board& board,
+Moves SinglePiece::getJumpMoves(Board& board,
 		const Coordinate& coordinate) const {
 	return MoveRules::getJumpMoves(board, this, coordinate, std::mem_fn (&SinglePiece::getCoordinates));
 }

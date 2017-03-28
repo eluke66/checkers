@@ -8,13 +8,13 @@
 #ifndef PLAYER_H_
 #define PLAYER_H_
 
-#include <list>
-class Move;
+#include "CheckerTypes.h"
 class Board;
 
 class Player {
 public:
-	virtual Move * selectMove(std::list<Move *> &moves, Board &board) const = 0;
+	virtual ~Player() {}
+	virtual MoveType selectMove(Moves &moves, Board &board) const = 0;
 };
 
 

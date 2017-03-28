@@ -13,8 +13,8 @@ Game::Game(const Player* player1, const Player* player2,
 	colorsPerPlayer[player1] = Color::Black;
 	colorsPerPlayer[player2] = Color::Red;
 }
-void freeMoves(std::list<Move *> moves) {
-	std::list<Move *>::iterator it;
+void freeMoves(Moves moves) {
+	Moves::iterator it;
 	for (it = moves.begin(); it != moves.end(); it++) {
 		delete *it;
 	}
@@ -31,11 +31,11 @@ const Player* Game::play() {
 
 		turnSignal(PlayerTurn(whichTurn, currentPlayer, board, color));
 
-		std::list<Move *> moves = moveRules.getMovesForColor(color, board);
+		Moves moves = moveRules.getMovesForColor(color, board);
 		if (!playerHasValidMoves(moves)) {
 			break;
 		}
-		Move *move = currentPlayer->selectMove(moves, board);
+		MoveType move = currentPlayer->selectMove(moves, board);
 		move->execute();
 
 		freeMoves(moves);
