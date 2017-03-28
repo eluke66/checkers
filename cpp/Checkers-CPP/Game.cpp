@@ -1,11 +1,3 @@
-//============================================================================
-// Name        : Checkers-CPP.cpp
-// Author      : 
-// Version     :
-// Copyright   : Your copyright notice
-// Description : Hello World in C, Ansi-style
-//============================================================================
-
 #include "Board.h"
 #include "Game.h"
 #include "Player.h"
