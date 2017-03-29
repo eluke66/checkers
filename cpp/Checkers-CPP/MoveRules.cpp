@@ -33,7 +33,7 @@ Moves MoveRules::getSimpleMovesForCoordinates(Board& board,
 	for (iterator = coordinates.begin(); iterator != coordinates.end(); ++iterator) {
 		Coordinate c = *iterator;
 		if (board.isValidPosition(c) && board.getPieceAt(c) == NULL) {
-			moves.push_back(new SimpleMove(board, piece, coordinate, c));
+			moves.push_back(MoveType(new SimpleMove(board, piece, coordinate, c)));
 		}
 	}
 
@@ -55,13 +55,13 @@ bool MoveRules::isValidPosition(Board& board, const Coordinate& coordinate) {
 	return board.isValidPosition(coordinate);
 }
 
-Move* MoveRules::getJumpMove(Board& board, const Piece* piece,
+MoveType MoveRules::getJumpMove(Board& board, const Piece* piece,
 		const Coordinate& from, const Coordinate& to) {
 	return Move::jumpMove(board, piece, from, to);
 }
 
-Move* MoveRules::getMultiJumpMove(Board& board, const Piece* piece,
-		const Coordinate& from, const Coordinate& to, Move* previousMove) {
+MoveType MoveRules::getMultiJumpMove(Board& board, const Piece* piece,
+		const Coordinate& from, const Coordinate& to, MoveType previousMove) {
 	return Move::multiJumpMove(board,piece,from,to,previousMove);
 }
 
@@ -73,7 +73,7 @@ MoveExecutor::~MoveExecutor() {
 	move->unExecute();
 }
 
-Coordinate MoveRules::getLandingSpot(Move* move) {
+Coordinate MoveRules::getLandingSpot(MoveType move) {
 	return move->getTo();
 }
 

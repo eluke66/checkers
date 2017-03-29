@@ -18,9 +18,9 @@ RandomChoicePlayer::~RandomChoicePlayer() {
 	// TODO Auto-generated destructor stub
 }
 
-Move* RandomChoicePlayer::selectMove(std::list<Move*>& moves,
+MoveType RandomChoicePlayer::selectMove(Moves& moves,
 		Board& board) const {
-	std::list<Move*>::const_iterator it = moves.begin();
+	Moves::const_iterator it = moves.begin();
 	const unsigned long n = std::distance(moves.begin(), moves.end());
 	const unsigned long divisor = (RAND_MAX + 1) / n;
 

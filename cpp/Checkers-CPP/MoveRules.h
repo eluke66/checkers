@@ -80,8 +80,8 @@ inline Moves MoveRules::getJumpMoves(Board& board,
 }
 
 template<typename CoordinateProducer, typename PieceType>
-inline void MoveRules::searchJumps(std::list<Move*>& moves, Board& board,
-		const PieceType* piece, std::list<Move*>& finalMoves,
+inline void MoveRules::searchJumps(Moves& moves, Board& board,
+		const PieceType* piece, Moves& finalMoves,
 		CoordinateProducer coordProducer) {
 	// For each move
 	Moves::const_iterator iterator;

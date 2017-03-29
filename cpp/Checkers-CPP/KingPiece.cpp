@@ -10,13 +10,13 @@
 #include "Coordinate.h"
 #include "MoveRules.h"
 
-std::list<Move*> KingPiece::getSimpleMoves(Board& board,
+Moves KingPiece::getSimpleMoves(Board& board,
 		const Coordinate& coordinate) const {
 
 	return MoveRules::getSimpleMoves(board, this, coordinate, std::mem_fn (&KingPiece::getCoordinates));
 }
 
-std::list<Move*> KingPiece::getJumpMoves(Board& board,
+Moves KingPiece::getJumpMoves(Board& board,
 		const Coordinate& coordinate) const {
 	return MoveRules::getJumpMoves(board, this, coordinate, std::mem_fn (&KingPiece::getCoordinates));
 }

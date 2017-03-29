@@ -13,12 +13,7 @@ Game::Game(const Player* player1, const Player* player2,
 	colorsPerPlayer[player1] = Color::Black;
 	colorsPerPlayer[player2] = Color::Red;
 }
-void freeMoves(Moves moves) {
-	Moves::iterator it;
-	for (it = moves.begin(); it != moves.end(); it++) {
-		delete *it;
-	}
-}
+
 const Player* Game::play() {
 	putPiecesOnTheBoard(board);
 
@@ -38,7 +33,6 @@ const Player* Game::play() {
 		MoveType move = currentPlayer->selectMove(moves, board);
 		move->execute();
 
-		freeMoves(moves);
 		whichPlayer = otherPlayer(whichPlayer);
 		whichTurn++;
 	}

@@ -20,7 +20,7 @@ ConsolePlayer::~ConsolePlayer() {
 	// TODO Auto-generated destructor stub
 }
 
-Move* ConsolePlayer::selectMove(Moves& moves, Board& board) const {
+MoveType ConsolePlayer::selectMove(Moves& moves, Board& board) const {
 	std::cout << "Board is " << board.toString() << std::endl;
 
 	std::vector<MoveType> moveVector;

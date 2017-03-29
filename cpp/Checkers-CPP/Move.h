@@ -20,9 +20,9 @@ public:
 		board(board), piece(piece), from(from), to(to) {}
 	virtual ~Move() {}
 
-	static Move* simpleMove(Board &board, const Piece *piece, const Coordinate &from, const Coordinate &to);
-	static Move* jumpMove(Board &board, const Piece *piece, const Coordinate &from, const Coordinate &to);
-	static Move* multiJumpMove(Board &board, const Piece *piece, const Coordinate &from, const Coordinate &to, Move* previousMove);
+	static MoveType simpleMove(Board &board, const Piece *piece, const Coordinate &from, const Coordinate &to);
+	static MoveType jumpMove(Board &board, const Piece *piece, const Coordinate &from, const Coordinate &to);
+	static MoveType multiJumpMove(Board &board, const Piece *piece, const Coordinate &from, const Coordinate &to, MoveType previousMove);
 
 	virtual void execute() = 0;
 	virtual void unExecute() = 0;

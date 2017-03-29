@@ -1,4 +1,5 @@
 #include <exception>
+#include <memory>
 #include "Move.h"
 #include "Board.h"
 #include "KingPiece.h"
@@ -12,19 +13,19 @@ Move::moveAndKingPiece(const Piece *piece, Board &board, const Coordinate &to) {
 	}
 }
 
-Move* Move::simpleMove(Board &board, const Piece *piece, const Coordinate &from, const Coordinate &to) {
-	return new SimpleMove(board, piece, from, to);
+MoveType Move::simpleMove(Board &board, const Piece *piece, const Coordinate &from, const Coordinate &to) {
+	return MoveType(new SimpleMove(board, piece, from, to));
 }
 
-Move* Move::jumpMove(Board& board, const Piece* piece, const Coordinate& from,
+MoveType Move::jumpMove(Board& board, const Piece* piece, const Coordinate& from,
 		const Coordinate& to) {
-	return new JumpMove(board, piece, from, Coordinate::extending(from, to), to);
+	return MoveType(new JumpMove(board, piece, from, Coordinate::extending(from, to), to));
 }
 
-Move* Move::multiJumpMove(Board& board, const Piece* piece,
+MoveType Move::multiJumpMove(Board& board, const Piece* piece,
 		const Coordinate& from, const Coordinate& to,
-		Move* previousMove) {
-	return new MultiJumpMove(board, piece, from, Coordinate::extending(from, to), to, previousMove);
+		MoveType previousMove) {
+	return MoveType(new MultiJumpMove(board, piece, from, Coordinate::extending(from, to), to, previousMove));
 }
 
 void SimpleMove::execute() {

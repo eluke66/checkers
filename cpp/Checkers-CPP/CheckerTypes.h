@@ -9,10 +9,10 @@
 #define CHECKERTYPES_H_
 
 #include <list>
+#include <memory>
 class Move;
 
-typedef Move * MoveType;
+typedef std::shared_ptr<Move> MoveType;
 typedef std::list<MoveType> Moves;
-
 
 #endif /* CHECKERTYPES_H_ */
