@@ -5,6 +5,7 @@
 # Add inputs and outputs from these tool invocations to the build variables 
 C_SRCS += \
 ../src/Board.c \
+../src/Events.c \
 ../src/Game.c \
 ../src/Move.c \
 ../src/MoveRules.c \
@@ -13,6 +14,7 @@ C_SRCS += \
 
 OBJS += \
 ./src/Board.o \
+./src/Events.o \
 ./src/Game.o \
 ./src/Move.o \
 ./src/MoveRules.o \
@@ -21,6 +23,7 @@ OBJS += \
 
 C_DEPS += \
 ./src/Board.d \
+./src/Events.d \
 ./src/Game.d \
 ./src/Move.d \
 ./src/MoveRules.d \

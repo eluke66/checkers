@@ -14,6 +14,7 @@
 
 #include "Game.h"
 #include "RandomChoicePlayer.h"
+#include "ConsolePlayer.h"
 
 void profile(int numGames) {
 	struct timespec start,end;
@@ -24,19 +25,21 @@ void profile(int numGames) {
 
 	for (int i = 0; i < numGames; i++) {
 		clock_gettime(CLOCK_REALTIME, &start);
-		play(player1, player2);
+		play(player1, player2, &noopEvent);
 		clock_gettime(CLOCK_REALTIME, &end);
 		totalTimeNs += (end.tv_sec*NANO + end.tv_nsec) - (start.tv_sec*NANO + start.tv_nsec);
 
 	}
 	long timeInMs = (totalTimeNs / 1000000);
-	printf("Executed %d games in %d ms, or %.2f ms/game\n",numGames,timeInMs,(float)timeInMs/(float)numGames);
+	printf("Executed %d games in %ld ms, or %.2f ms/game\n",numGames,timeInMs,(float)timeInMs/(float)numGames);
 }
 
 void playGame() {
-
-
+	player_t player1 = (player_t) {.color=BLACK, .selectMove=consoleSelector};
+	player_t player2 = (player_t) {.color=RED, .selectMove=consoleSelector};
+	play(player1, player2, consoleEventReporter);
 }
+
 int main(int argc, char ** argv) {
 	if (argc > 1) {
 		profile(atoi(argv[1]));

@@ -9,6 +9,7 @@
 #include "Game.h"
 #include "Board.h"
 #include "TestUtils.h"
+#include "Events.h"
 
 void eachPlayerStartsWith12Pieces() {
 	Board board;
@@ -48,7 +49,7 @@ void blackMovesFirst() {
 	firstPlayer=-1;
 	player_t player1 = (player_t){BLACK, &blackMovesFirst_selectMove1};
 	player_t player2 = (player_t){BLACK, &blackMovesFirst_selectMove2};
-	play(player1, player2);
+	play(player1, player2, &noopEvent);
 
 	ASSERT_EQ_INT(1, firstPlayer);
 }
@@ -69,7 +70,7 @@ void redMovesAfterBlack() {
 	playerMoves=-1;
 	player_t player1 = (player_t){BLACK, &redMovesAfterBlack_selectMove1};
 	player_t player2 = (player_t){BLACK, &redMovesAfterBlack_selectMove2};
-	play(player1, player2);
+	play(player1, player2, &noopEvent);
 
 	ASSERT_EQ_INT(2, playerMoves);
 }

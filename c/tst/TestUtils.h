@@ -55,10 +55,10 @@
 		}
 
 #define ASSERT_PRESENT(a) \
-		if ((a) == NULL) { FAIL("Expected %s to be non-null but was 0x%x",#a, (a)); }
+		if ((a) == NULL) { FAIL("Expected %s to be non-null but was 0x%p",#a, (a)); }
 
 #define ASSERT_NULL(a) \
-		if ((a) != NULL) { FAIL("Expected %s to be null but was 0x%x",#a, (a)); }
+		if ((a) != NULL) { FAIL("Expected %s to be null but was 0x%p",#a, (a)); }
 
 #define ASSERT_TRUE(a) \
 		if (!(a)) { FAIL("Expected %s to be true but was %d",#a, (a)); }

@@ -6,6 +6,8 @@
 C_SRCS += \
 ../src/Board.c \
 ../src/Checkers-C.c \
+../src/ConsolePlayer.c \
+../src/Events.c \
 ../src/Game.c \
 ../src/Move.c \
 ../src/MoveRules.c \
@@ -15,6 +17,8 @@ C_SRCS += \
 OBJS += \
 ./src/Board.o \
 ./src/Checkers-C.o \
+./src/ConsolePlayer.o \
+./src/Events.o \
 ./src/Game.o \
 ./src/Move.o \
 ./src/MoveRules.o \
@@ -24,6 +28,8 @@ OBJS += \
 C_DEPS += \
 ./src/Board.d \
 ./src/Checkers-C.d \
+./src/ConsolePlayer.d \
+./src/Events.d \
 ./src/Game.d \
 ./src/Move.d \
 ./src/MoveRules.d \

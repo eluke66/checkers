@@ -12,9 +12,10 @@
 #include "Move.h"
 #include "Board.h"
 #include "Player.h"
+#include "Events.h"
 
 
-extern player_t play(player_t player1, player_t player2);
+extern player_t play(player_t player1, player_t player2, EventReceiver eventReceiver);
 
 
 extern void putPiecesOnTheBoard(Board *board);

@@ -16,7 +16,7 @@
 		}
 
 #define MAKE_NO_PIECE(row, col) \
-		board->pieces[row][col].color = NO_PIECE
+		board->pieces[(int)row][(int)col].color = NO_PIECE
 
 int isFinalRowForPiece(Piece *piece, Coordinate dest) {
 	return (piece->color == RED && dest.row == 0) || (piece->color == BLACK && dest.row == (BOARD_SIZE-1));
@@ -38,7 +38,7 @@ void removePieceAt(Board *board, Coordinate coordinate) {
 
 void placePieceAt(Board *board, Piece *piece, Coordinate coordinate) {
 	//printf("Board.c: Placing piece %d on %d,%d\n", piece->color, coordinate.row, coordinate.col);
-	board->pieces[coordinate.row][coordinate.col] = *piece;
+	board->pieces[(int)coordinate.row][(int)coordinate.col] = *piece;
 	//printPiece(piece);
 }
 
@@ -93,10 +93,6 @@ int isValidPosition(Board *board, Coordinate c) {
 void printPiece(Piece *piece);
 int pieceIsJumpable(Board *board, Piece *piece, Coordinate coordinate) {
 	Piece *otherPiece = getPieceAt(board, coordinate);
-	//printf("Board.c::PIJ Piece is "); printPiece(piece);
-	//printf("\tOther piece is "); printPiece(otherPiece);
-	//printf("\tAnd isPiece is %d and colorTest is %d\n", isPiece(otherPiece), otherPiece->color != piece->color);
-	//printf("\tat %d,%d\n",coordinate.row, coordinate.col);
 	return isPiece(otherPiece) && otherPiece->color != piece->color;
 }
 
@@ -107,7 +103,7 @@ int nextSpaceIsLandable(Board *board, Piece *piece, Coordinate from, Coordinate 
 
 Piece *getPieceAt(Board *board, Coordinate coordinate) {
 	VALIDATE_POSITION(coordinate, "get");
-	return &(board->pieces[coordinate.row][coordinate.col]);
+	return &(board->pieces[(int)coordinate.row][(int)coordinate.col]);
 }
 
 void printBoard(Board *board) {

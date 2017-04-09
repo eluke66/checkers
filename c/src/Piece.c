@@ -9,6 +9,9 @@
 #include "Board.h"
 #include "MoveRules.h"
 
+#include <stdio.h>
+#include <stdlib.h>
+
 #define LEFT -1
 #define RIGHT 1
 

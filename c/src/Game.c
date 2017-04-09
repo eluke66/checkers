@@ -14,7 +14,7 @@ void putPiecesOnTheBoard(Board *board);
 int playerHasValidMoves(Moves moves);
 int otherPlayer(int whichPlayer);
 
-player_t play(player_t player1, player_t player2) {
+player_t play(player_t player1, player_t player2, EventReceiver event) {
 	Board board;
 	putPiecesOnTheBoard(&board);
 
@@ -27,7 +27,7 @@ player_t play(player_t player1, player_t player2) {
 		player_t currentPlayer = players[whichPlayer];
 		color_t color = currentPlayer.color;
 
-		//turnSignal(PlayerTurn(whichTurn, currentPlayer, board, color));
+		event(playerTurn(whichTurn, currentPlayer, &board, color));
 
 		Moves moves = getMovesForColor(color, &board);
 		if (!playerHasValidMoves(moves)) {
@@ -42,7 +42,7 @@ player_t play(player_t player1, player_t player2) {
 	}
 
 	player_t winningPlayer = players[otherPlayer(whichPlayer)];
-	//endSignal(GameFinished(whichTurn, winningPlayer));
+	event(gameFinished(whichTurn, winningPlayer));
 	return winningPlayer;
 }
 

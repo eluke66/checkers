@@ -11,6 +11,7 @@
 #include <stddef.h>
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 
 /////// PIECE RING BUFFER CACHE /////////////////
 #define NUM_PIECES 2000
@@ -74,7 +75,7 @@ void unExecuteJumpMove(struct _Move *move) {
 		jumpMoveData->whichPiece = NO_PIECE_INDEX;
 	}
 	else {
-		fprintf(stderr, "Trying to un-rejump piece for move 0x%x", move);
+		fprintf(stderr, "Trying to un-rejump piece for move 0x%p", move);
 	}
 }
 
@@ -143,7 +144,7 @@ Move addMultiJumpMove(Board *board, Piece *piece, Coordinate from, Coordinate to
 
 void printMoves(Moves *moves) {
 	for (int i = 0; i < moves->count; i++) {
-		printf("%d: (0x%x) ", i, &moves->moves[i]); printMove(&moves->moves[i]);
+		printf("%d: (0x%p) ", i, &moves->moves[i]); printMove(&moves->moves[i]);
 	}
 }
 
@@ -166,9 +167,6 @@ char * printJump(Move *move, char *buffer) {
 		buffer[0] = '\n'; buffer+=sizeof(char);
 		memset(buffer, ' ', depth);
 		buffer += depth*sizeof(char);
-		// jumping red king from 1-2-3
-		//   jumping red piece from 3-4-5
-		//    ....
 	}
 
 	// Single jump
@@ -190,27 +188,11 @@ void printMove(Move *move) {
 	if (move->extraData != NULL) {
 		memset(moveInformation, 0, 1024);
 		printJump(move, moveInformation);
-//		if (move->execute == &executeMultiJumpMove) {
-//			// Multi jump
-//			MultiJumpMoveData *data = (MultiJumpMoveData *)move->extraData;
-//			Piece *pieceBeingJumped = getPiece(data->jumpMoveData->whichPiece);
-//			Move *previousMove = data->previousMove;
-//		}
-//		else {
-//			// Single jump
-//			JumpMoveData * data = (JumpMoveData *)move->extraData;
-//			Piece *pieceBeingJumped = getPiece(data->whichPiece);
-//			sprintf(moveInformation, "jumping a %s %s from (%d,%d)-(%d,%d)-(%d,%d)",
-//					CNAME(pieceBeingJumped), PTYPE(pieceBeingJumped),
-//					data->existingPieceLocation.row,  data->existingPieceLocation.col,
-//					move->from.row,move->from.col,move->to.row,move->to.col);
-//		}
 	}
 	else {
 		// Simple
 		sprintf(moveInformation, "moving from (%d,%d) to (%d,%d)", move->from.row,move->from.col,move->to.row,move->to.col);
 	}
-	//char * moveType = move->extraData == NULL ? "Simple" : (sizeof(move->extraData) == sizeof(MultiJumpMoveData) ? "Multi jump" : "Jump");
 	printf("%s %s %s\n", CNAME(piece), PTYPE(piece), moveInformation);
 }
 
