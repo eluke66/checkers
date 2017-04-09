@@ -1,0 +1,2 @@
+make -C Test clean && make -C Debug clean && make -C Release clean
+

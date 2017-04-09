@@ -1,0 +1,2 @@
+make -C Test all && make -C Debug all && make -C Release all
+
