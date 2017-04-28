@@ -5,6 +5,7 @@
 	<artifactId>checkers</artifactId>
 	<version>1.0.0</version>
 	<name>checkers</name>
+        <packaging>jar</packaging>
 
 	<properties>
 		<maven.compiler.source>1.8</maven.compiler.source>
@@ -31,4 +32,25 @@
 		</dependency>
 
 	</dependencies>
+	<build>
+                <plugins>
+                        <plugin>
+                                <groupId>org.codehaus.mojo</groupId>
+                                <artifactId>appassembler-maven-plugin</artifactId>
+                                <version>1.2.2</version>
+                                <configuration>
+                                        <platforms>
+                                                <platform>unix</platform>
+                                        </platforms>
+                                        <programs>
+                                                <program>
+                                                        <mainClass>com.eluke.checkers.Game</mainClass>
+                                                        <name>checkers</name>
+                                                </program>
+                                        </programs>
+                                </configuration>
+                        </plugin>
+                </plugins>
+        </build>
+
 </project>
