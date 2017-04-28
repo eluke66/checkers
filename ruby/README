@@ -1,0 +1,4 @@
+clear ; RUBYLIB=. rspec -c -f d *_spec.rb 
+
+RUBYLIB=. ruby Driver.rb
+RUBYLIB=. ruby Driver.rb 1000
