@@ -84,6 +84,9 @@ class Game extends Observable {
 
 	static profile(int numGames) {
 		long totalTimeNs = 0
+		1000.times {
+			new Game(new RandomOptionPlayer(), new RandomOptionPlayer()).play();
+		}
 		for (int i = 0; i < numGames; i++) {
 			Game game = new Game(new RandomOptionPlayer(), new RandomOptionPlayer())
 

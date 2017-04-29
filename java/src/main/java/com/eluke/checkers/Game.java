@@ -89,6 +89,10 @@ public class Game extends Observable {
 
 	private static void profile(int numGames) {
 		long totalTimeNs = 0;
+		// Warm up
+		for (int i = 0; i < 20000; i++) {
+			new Game(new RandomOptionPlayer(), new RandomOptionPlayer()).play();
+		}
 		for (int i = 0; i < numGames; i++) {
 			Game game = new Game(new RandomOptionPlayer(), new RandomOptionPlayer());
 
@@ -104,10 +108,9 @@ public class Game extends Observable {
 				System.out.println(game.board.dump());
 				throw e;
 			}
-			if ((i+1) % (numGames/10) == 0) { System.err.println(i+1); }
 		}
 		long timeInMs = (totalTimeNs / 1000000);
-		System.err.println("Executed " + numGames + " in " + timeInMs + " ms, or " + (timeInMs / (float)numGames) + " ms/game" );
+		System.out.println("Executed " + numGames + " in " + timeInMs + " ms, or " + (timeInMs / (float)numGames) + " ms/game" );
 	}
 
 	private static void playConsole() {

@@ -1,8 +1,0 @@
-c/Release/Checkers-C 1000
-cpp/Checkers-CPP/Game 1000
-java/target/appassembler/bin/checkers 100000
-groovy/target/appassembler/bin/checkers 40000
-python3 python/python/src/game.py 1000
-RUBYLIB=ruby ruby ruby/Driver.rb 1000
-
-# perl -e '$x = <STDIN>; $x =~ /(\d*\.\d*) ms/; print "$1\n";'
