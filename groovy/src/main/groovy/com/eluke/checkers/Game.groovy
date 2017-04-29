@@ -82,10 +82,9 @@ class Game extends Observable {
 		}
 	}
 
-	static profile() {
+	static profile(int numGames) {
 		long totalTimeNs = 0
-		final int NUM_GAMES = 10000
-		for (int i = 0; i < NUM_GAMES; i++) {
+		for (int i = 0; i < numGames; i++) {
 			Game game = new Game(new RandomOptionPlayer(), new RandomOptionPlayer())
 
 			try {
@@ -102,7 +101,7 @@ class Game extends Observable {
 			}
 		}
 		long timeInMs = (totalTimeNs / 1000000)
-		println "Executed " + NUM_GAMES + " in " + timeInMs + " ms, or " + (timeInMs / (float)NUM_GAMES) + " ms/game"
+		println "Executed " + numGames + " in " + timeInMs + " ms, or " + (timeInMs / (float)numGames) + " ms/game"
 	}
 
 	static playConsole() {
@@ -112,8 +111,8 @@ class Game extends Observable {
 	}
 
 	static main(args) {
-		if (args.length == 0) {
-			profile()
+		if (args.length == 1) {
+			profile(Integer.parseInt(args[0]))
 		}
 		else {
 			playConsole()

@@ -3,7 +3,8 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>com.eluke</groupId>
 	<artifactId>checkers-groovy</artifactId>
-	<version>0.0.1-SNAPSHOT</version>
+	<version>1.0.0</version>
+        <packaging>jar</packaging>
 
 	<properties>
 		<maven.compiler.source>1.8</maven.compiler.source>
@@ -29,6 +30,7 @@
 	</dependencies>
 	<build>
 		<plugins>
+
 			<plugin>
 				<artifactId>maven-compiler-plugin</artifactId>
 				<version>3.5.1</version>
@@ -41,15 +43,63 @@
 						<artifactId>groovy-eclipse-compiler</artifactId>
 						<version>2.9.1-01</version>
 					</dependency>
-					<!-- for 2.8.0-01 and later you must have an explicit dependency on 
-						groovy-eclipse-batch -->
+
 					<dependency>
 						<groupId>org.codehaus.groovy</groupId>
 						<artifactId>groovy-eclipse-batch</artifactId>
-						<version>2.3.7-01</version>
+						<version>2.4.3-01</version>
 					</dependency>
 				</dependencies>
 			</plugin>
+
+                     <plugin>
+                                <groupId>org.codehaus.mojo</groupId>
+                                <artifactId>build-helper-maven-plugin</artifactId>
+                                <version>1.5</version>
+                                <executions>
+                                        <execution>
+                                                <id>add-source</id>
+                                                <phase>generate-sources</phase>
+                                                <goals>
+                                                        <goal>add-source</goal>
+                                                </goals>
+                                                <configuration>
+                                                        <sources>
+                                                                <source>src/main/groovy</source>
+                                                        </sources>
+                                                </configuration>
+                                        </execution>
+                                        <execution>
+                                                <id>add-test-source</id>
+                                                <phase>generate-test-sources</phase>
+                                                <goals>
+                                                        <goal>add-test-source</goal>
+                                                </goals>
+                                                <configuration>
+                                                        <sources>
+                                                                <source>src/test/groovy</source>
+                                                        </sources>
+                                                </configuration>
+                                        </execution>
+                                </executions>
+                        </plugin>
+
+			<plugin>
+                                <groupId>org.codehaus.mojo</groupId>
+                                <artifactId>appassembler-maven-plugin</artifactId>
+                                <version>1.2.2</version>
+                                <configuration>
+                                        <platforms>
+                                                <platform>unix</platform>
+                                        </platforms>
+                                        <programs>
+                                                <program>
+                                                        <mainClass>com.eluke.checkers.Game</mainClass>
+                                                        <name>checkers</name>
+                                                </program>
+                                        </programs>
+                                </configuration>
+                        </plugin>
 		</plugins>
 
 

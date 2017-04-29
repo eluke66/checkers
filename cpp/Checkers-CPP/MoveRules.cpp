@@ -16,12 +16,10 @@
 #include "Piece.h"
 
 MoveRules::MoveRules() {
-	// TODO Auto-generated constructor stub
 
 }
 
 MoveRules::~MoveRules() {
-	// TODO Auto-generated destructor stub
 }
 
 Moves MoveRules::getSimpleMovesForCoordinates(Board& board,

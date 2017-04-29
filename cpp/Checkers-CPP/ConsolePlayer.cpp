@@ -12,12 +12,9 @@
 #include <vector>
 
 ConsolePlayer::ConsolePlayer() {
-	// TODO Auto-generated constructor stub
-
 }
 
 ConsolePlayer::~ConsolePlayer() {
-	// TODO Auto-generated destructor stub
 }
 
 MoveType ConsolePlayer::selectMove(Moves& moves, Board& board) const {

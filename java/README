@@ -1,0 +1,2 @@
+java8 ; mvn clean package jar:jar appassembler:assemble
+

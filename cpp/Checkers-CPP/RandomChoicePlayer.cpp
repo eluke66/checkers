@@ -10,12 +10,10 @@
 #include "Board.h"
 
 RandomChoicePlayer::RandomChoicePlayer() {
-	// TODO Auto-generated constructor stub
 
 }
 
 RandomChoicePlayer::~RandomChoicePlayer() {
-	// TODO Auto-generated destructor stub
 }
 
 MoveType RandomChoicePlayer::selectMove(Moves& moves,

@@ -17,6 +17,7 @@
 #include "ConsolePlayer.h"
 
 void profile(int numGames) {
+	srand(100);
 	struct timespec start,end;
 	long totalTimeNs = 0;
 	long NANO = 1000000000;
