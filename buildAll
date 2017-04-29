@@ -1,0 +1,4 @@
+(cd cpp/Checkers-CPP ; make clean ; make -j 4 all)
+(cd c/ ; ./makeClean && ./makeAll)
+(cd groovy/ ; mvn clean package jar:jar appassembler:assemble) && chmod u+x groovy/target/appassembler/bin/checkers
+(cd java/ ; mvn clean package jar:jar appassembler:assemble) && chmod u+x java/target/appassembler/bin/checkers
