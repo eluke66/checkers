@@ -4,40 +4,12 @@ use Checkers::SinglePiece;
 use Checkers::Coordinate;
 use Checkers::Color;
 use Data::Dumper;
+
+use lib 't/';
+use Checkers::TestHelpers;
+
 use strict;
 use warnings;
-
-sub blackPieceAt {
-    my ($board, $row, $col) = @_;
-    return $board->placePieceAt(Checkers::SinglePiece->new(Checkers::Color::BLACK, FORWARD), Checkers::Coordinate->new($row,$col))   
-}
-sub redPieceAt {
-    my ($board, $row, $col) = @_;
-    return $board->placePieceAt(Checkers::SinglePiece->new(Checkers::Color::RED, BACKWARDS), Checkers::Coordinate->new($row,$col))   
-}
-
-sub assertNoRedPieces {
-    my ($board) = @_;
-    
-    ok (scalar $board->getPiecesForColor(Checkers::Color::RED) == 0);
-}
-
-sub assertNoPieceAt {
-    my ($board, $row, $col) = @_;
-    
-    my $piece = $board->getPieceAt(Checkers::Coordinate->new($row,$col));
-    
-    ok (not defined $piece);
-}
-
-sub assertPieceIsBlack {
-    my ($board, $row, $col) = @_;
-    my $piece = $board->getPieceAt(Checkers::Coordinate->new($row,$col));
- 
-    ok( defined $piece, "Piece is defined" );
-    ok( $piece->{color} == Checkers::Color::BLACK, "Piece at $row, $col is black" );
-    return $piece;
-}
 
 subtest "Single pieces cannot jump when blocked" => sub {
     my $board = Checkers::Board->new;
@@ -173,8 +145,6 @@ subtest "When single piece jumps into the back row it is kinged" => sub {
     my $newPiece = assertPieceIsBlack($board,$board->size()-1,3);
     ok( $newPiece->{canBeKinged} == 0 );
 };
-
-
 
 done_testing();
 
