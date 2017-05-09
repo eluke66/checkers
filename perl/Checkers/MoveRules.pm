@@ -57,9 +57,36 @@ sub nextSpaceIsLandable {
 
 sub searchJumps {
     my ($board, $piece, $coordProducer, @incomingMoves) = @_;
-    # TODO
     
-    return @incomingMoves;
+    my @finalMoves;
+    
+    foreach my $move (@incomingMoves) {
+    
+        # Let's assume we execute the move.
+        $move->{execute}();
+
+        # Get the next jump moves.
+        my $nextCoordinate = $move->{moveTo};
+        
+        my $isValid = sub { my $c = shift; return ($board->isValidPosition($c) and pieceIsJumpable($board,$piece,$c) and nextSpaceIsLandable($board, $piece, $nextCoordinate, $c)); };
+        my $toMove = sub { my $c = shift; return Checkers::Move::multiJumpMove($board, $piece, $nextCoordinate, $c, $move); };
+       
+        my @nextCoordinates = $coordProducer->($nextCoordinate);
+        my @nextMovesForThisMove = grepAndMap($isValid, $toMove, @nextCoordinates);
+        
+        # And undo the move
+        $move->{unExecute}();
+
+        # If there are any next moves, then we replace this move with those moves AND THEIR CONTINUED MOVES
+        if (scalar @nextMovesForThisMove > 0) {
+            push @finalMoves, searchJumps($board, $piece, $coordProducer, @nextMovesForThisMove);
+        }
+        else {
+            # Otherwise we don't have to jump more, and just add this move.
+            push @finalMoves, $move
+        }
+    }
+    return @finalMoves;
 }
 
 sub computeJumpMoves {
