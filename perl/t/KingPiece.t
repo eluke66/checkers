@@ -109,7 +109,6 @@ subtest "Kings can jump backwards then forwards" => sub {
     assertNoRedPieces($board);
     assertNoPieceAt($board,2,4);
     assertPieceIsBlack($board,2,0);
-
 };
 
 done_testing();

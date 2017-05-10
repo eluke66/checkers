@@ -115,4 +115,44 @@ sub dump {
     print Dumper($self) . "\n";
 }
 
+sub toString {
+    my $self = shift;
+    my $s = "  ";
+    my @nums = (0..$self->size()-1);
+    
+    $s .= join "", @nums;
+    $s .= "\n";
+    
+	foreach my $row (@nums) {
+	    $s .= "$row ";
+	    foreach my $col (@nums) {
+	        if (not isUsableSquare($row,$col)) {
+	            $s .= "|";
+	        }
+	        else {
+	            my $piece = $self->getPieceAt(Checkers::Coordinate->new($row, $col));
+	            if (not defined $piece) {
+	                $s .= "_";
+	            }
+	            else {
+	                my $color = $piece->{color};
+	                my $isKing = ($piece->{canBeKinged} == 0);
+	                if ($color == Checkers::Color::BLACK) {
+	                    if ($isKing) { $s .= "B"; }
+	                    else { $s .= "b"; }
+	                }
+	                elsif ($color == Checkers::Color::RED) {
+	                    if ($isKing) { $s .= "R"; }
+	                    else { $s .= "r"; }
+	                }
+	                else { $s .= "?"; }
+	            }
+	        }
+	    }
+	    $s .= "\n";
+	}
+	
+	return $s;
+}
+
 1;
