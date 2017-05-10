@@ -3,12 +3,13 @@ package Checkers::MoveRules;
 use strict;
 use warnings;
 use Checkers::Move;
+use Checkers::Board;
 use Data::Dumper;
 
 require Exporter;
 
 our @ISA    = qw( Exporter );
-our @EXPORT = qw(computeSimpleMoves);
+our @EXPORT = qw(computeSimpleMoves getMovesForColor);
 
 sub grepAndMap {
     my ($grepRef, $mapRef, @items) = @_;
@@ -23,6 +24,21 @@ sub grepAndMap {
     return @outputItems;
 }
 
+sub getMovesForColor {
+    my ($board, $color) = @_;
+    
+    my @pieces = $board->getPiecesForColor($color);
+    
+    my @jumps = map { $_->{getJumpMoves}($board) } @pieces;
+    
+    # Do jumps if available   
+    return @jumps if scalar @jumps > 0;
+        
+    # Otherwise do simple moves.
+    my @moves = map { $_->{getSimpleMoves}($board) } @pieces;
+    return @moves;
+}
+
 sub computeSimpleMoves {
     my ($board, $piece, $coordinate, $coordProducer) = @_;
     
@@ -31,13 +47,6 @@ sub computeSimpleMoves {
     my $toMove = sub { my $c = shift; return Checkers::Move::simpleMove($board, $piece, $coordinate, $c); };
     
     return grepAndMap($isValid, $toMove, @coords);
-    #my @moves = ();
-    # This should be grep/map, but for some reason it's not working
-    #foreach my $coord (@coords) { 
-    #    next unless $isValid->($coord);
-    #    push @moves, $toMove->($coord);
-    #}
-    #return @moves;
 }
 
 sub pieceIsJumpable {
