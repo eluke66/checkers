@@ -12,7 +12,7 @@ use warnings;
 require Exporter;
 
 our @ISA    = qw( Exporter );
-our @EXPORT = qw( blackPieceAt redPieceAt assertNoRedPieces assertNoPieceAt assertPieceIsBlack );
+our @EXPORT = qw( blackPieceAt redPieceAt assertNoRedPieces assertNoPieceAt assertPieceIsBlack assertPieceIsRed );
 
 sub blackPieceAt {
     my ($board, $row, $col) = @_;
@@ -43,6 +43,15 @@ sub assertPieceIsBlack {
  
     ok( defined $piece, "Piece is defined" );
     ok( $piece->{color} == Checkers::Color::BLACK, "Piece at $row, $col is black" );
+    return $piece;
+}
+
+sub assertPieceIsRed {
+    my ($board, $row, $col) = @_;
+    my $piece = $board->getPieceAt(Checkers::Coordinate->new($row,$col));
+ 
+    ok( defined $piece, "Piece is defined" );
+    ok( $piece->{color} == Checkers::Color::RED, "Piece at $row, $col is red" );
     return $piece;
 }
 
