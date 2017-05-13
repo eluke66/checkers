@@ -10,7 +10,8 @@ my %languages = (
 "Java" => "java/target/appassembler/bin/checkers $runsPerLanguage", # Was 100000 
 "Groovy" => "groovy/target/appassembler/bin/checkers $runsPerLanguage", # Was 40000
 "Python3" => "python3 python/python/src/game.py $runsPerLanguage",
-"Ruby" => "RUBYLIB=ruby ruby ruby/Driver.rb $runsPerLanguage");
+"Ruby" => "RUBYLIB=ruby ruby ruby/Driver.rb $runsPerLanguage",
+"Perl" => "PERLLIB=perl perl perl/driver.pl $runsPerLanguage");
 
 
 my %timings;
