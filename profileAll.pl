@@ -14,7 +14,7 @@ my %languages = (
 
 
 my %timings;
-foreach my $lang (keys %languages) {
+foreach my $lang (sort keys %languages) {
 	print "Executing $lang for $runsPerLanguage runs\n";
 	my $cmd = $languages{$lang};
 	my $output = `$cmd`;
@@ -24,7 +24,10 @@ foreach my $lang (keys %languages) {
 	$timings{$lang} = $timing;
 }
 
-foreach my $lang (sort { $timings{$b} <=> $timings{$a} } keys %timings) {
-	my $len = 15 - length $lang;
-	print "$lang" . ' ' x $len . ": $timings{$lang} ms/game\n";
+my $minTime = 100000;
+foreach my $lang (keys %timings) { my $val = $timings{$lang} ; $minTime = ($val <= $minTime ? $val : $minTime); }
+
+foreach my $lang (sort { $timings{$a} <=> $timings{$b} } keys %timings) {
+	my $multiplier = $timings{$lang} / $minTime;
+	printf ("%-10s : %2.2f ms/game - (%.1fx)\n", $lang, $timings{$lang}, $multiplier);
 }
