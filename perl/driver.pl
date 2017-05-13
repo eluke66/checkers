@@ -26,6 +26,13 @@ sub profile {
     printf "Total time is %.2f sec to play %d games, or %.2f ms/game\n", $totalTime, $numRuns, $msPerGame;
 }
 
+sub playInteractive {
+    use Checkers::Console;
+    
+    my $board = Checkers::Board->new;
+    Checkers::Game::play( $board, Checkers::Console::player, Checkers::Console::player, \&Checkers::MoveRules::getMovesForColor, Checkers::Console::eventHandler);
+}
+
 if (scalar @ARGV > 0) {
     profile($ARGV[0]);
 }

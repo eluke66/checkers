@@ -132,5 +132,10 @@ sub multiJumpMove {
     return $move;
 }
 
+sub toString {
+    my $move = shift;
+    
+    return $move->{moveFrom}->toString() . " to " . $move->{moveTo}->toString();
+}
 
 1;

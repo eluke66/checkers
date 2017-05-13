@@ -16,6 +16,12 @@ sub new {
   return $self;
 }
 
+sub toString {
+    my $c = shift;
+    
+    return "(" . $c->{row} . ", " . $c->{col} . ")";
+}
+
 sub asArray {
     my $self = shift;
     my @rowcol = ($self->{row}, $self->{col});

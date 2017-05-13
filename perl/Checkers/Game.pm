@@ -47,7 +47,7 @@ sub play {
 
 	while (1) {
 		my ($currentPlayer,$color) = @{$players[$whichPlayer]};
-		$eventHandler->{playerTurn}->($whichTurn, $currentPlayer, $board, $color) if $eventHandler;
+		$eventHandler->{playerTurn}($whichTurn, $currentPlayer, $board, $color) if $eventHandler;
 
 		my @moves = $getMovesForColor->($board, $color);
 		last if scalar @moves == 0;
@@ -61,7 +61,7 @@ sub play {
 	}
 	
 	my ($winningPlayer,$winningColor) = @{$players[($whichPlayer+1)%2]};
-	$eventHandler->{gameFinished}->($whichTurn, $winningPlayer) if $eventHandler;
+	$eventHandler->{gameFinished}($whichTurn, $winningPlayer) if $eventHandler;
 
     return $winningPlayer
 }
