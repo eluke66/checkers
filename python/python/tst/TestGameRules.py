@@ -54,11 +54,6 @@ class TestGameRules(TestBase):
         
         game.play()
         
-#         cargs = rules.getMovesForColor.mock_calls
-#         name,args,kwargs = cargs[0]
-#         col,brd = args
-#         print ("Got color " + str(col))
-        
         rules.getMovesForColor.assert_has_calls([call(Color.BLACK, game.board), call(Color.RED, game.board)])
         
     def testWhenAPlayerCannotMoveThenOtherPlayerWins(self):

@@ -1,4 +1,4 @@
-package Checkers::SinglePiece;
+package Checkers::KingPiece;
 
 use strict;
 use warnings;
@@ -10,21 +10,19 @@ use Carp;
 require Exporter;
 
 our @ISA    = qw( Exporter );
-our @EXPORT = qw( FORWARD BACKWARDS getSimpleMoves );
+our @EXPORT = qw( );
 
-use constant FORWARD => 1;
-use constant BACKWARDS => -1;
 
 sub new {
-  my ($class, $color, $direction) = @_;
+  my ($class, $color) = @_;
   
   my $self = {};
   bless $self, $class;
   
   $self->{color} = $color;
-  $self->{direction} = $direction;
   $self->{coordProducer} = sub { my $coord = shift; return getCoords($self->{direction}, $coord); };
-  $self->{canBeKinged} = 1;
+  $self->{canBeKinged} = 0;
+  
   return $self;
 }
 
@@ -45,8 +43,10 @@ sub getCoords {
     
     my $row = $coord->{row};
     my @coords = ( 
-        Checkers::Coordinate->new($coord->{row} + $dir, $coord->{col} + 1), 
-        Checkers::Coordinate->new($coord->{row} + $dir, $coord->{col} - 1) );
+        Checkers::Coordinate->new($coord->{row} + 1, $coord->{col} + 1), 
+        Checkers::Coordinate->new($coord->{row} + 1, $coord->{col} - 1),
+        Checkers::Coordinate->new($coord->{row} - 1, $coord->{col} + 1), 
+        Checkers::Coordinate->new($coord->{row} - 1, $coord->{col} - 1) );
     return @coords;
 }
 

@@ -21,46 +21,46 @@ sub putPiecesOnTheBoard {
         die "Cannot fit " . NUM_PIECES_PER_PLAYER . " onto a board of size " . $board->size();
     }
 
-    foreach my $row (0..$rows) {
+    foreach my $row (0..$rows-1) {
         my $colStart = $row % 2;
         for (my $col = $colStart; $col < $board->size(); $col += 2) {
-            my $piece = SinglePiece->new(BLACK, FORWARD);
-            $board->placePieceAt($piece, Coordinate->new($row,$col));
+            my $piece = Checkers::SinglePiece->new(BLACK, FORWARD);
+            $board->placePieceAt($piece, Checkers::Coordinate->new($row,$col));
         }
     }
-    foreach my $row (0..$rows) {
+    foreach my $row (0..$rows-1) {
         my $thisRow = $board->size() - $row - 1;
         my $colStart = $thisRow % 2;
         for (my $col = $colStart; $col < $board->size(); $col += 2) {
-            my $piece = SinglePiece->new(RED, BACKWARDS);
-            $board->placePieceAt($piece, Coordinate->new($thisRow,$col));
+            my $piece = Checkers::SinglePiece->new(RED, BACKWARDS);
+            $board->placePieceAt($piece, Checkers::Coordinate->new($thisRow,$col));
         }
     }
 }
-
+use Data::Dumper;
 sub play {
-	my ($board, $player1, $player2, $rules, $eventHandler) = @_;
+	my ($board, $player1, $player2, $getMovesForColor, $eventHandler) = @_;
 
 	my ($whichPlayer,$whichTurn) = (0,0);
-	my @players = ( [$player1, BLACK] , [$player2, RED]);
-
+	my @players = ( [$player1, BLACK], [$player2, RED]);
 	putPiecesOnTheBoard($board);
 
 	while (1) {
-		my ($currentPlayer,$color) = $players[$whichPlayer];
+		my ($currentPlayer,$color) = @{$players[$whichPlayer]};
 		$eventHandler->{playerTurn}->($whichTurn, $currentPlayer, $board, $color) if $eventHandler;
-		
-		my @moves = $rules->getMoveForColor($color, $board);
+
+		my @moves = $getMovesForColor->($board, $color);
 		last if scalar @moves == 0;
+        
+		my $move = $currentPlayer->{selectMove}($board, @moves);
 		
-		my $move = $currentPlayer->selectMove(\@moves, $board);
-		$move->execute();
+		$move->{execute}();
 		
 		$whichPlayer = ($whichPlayer+1)%2;
 		$whichTurn += 1;
 	}
 	
-	my ($winningPlayer,$winningColor) = $players[($whichPlayer+1)%2];
+	my ($winningPlayer,$winningColor) = @{$players[($whichPlayer+1)%2]};
 	$eventHandler->{gameFinished}->($whichTurn, $winningPlayer) if $eventHandler;
 
     return $winningPlayer
