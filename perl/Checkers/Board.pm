@@ -65,6 +65,13 @@ sub size {
 sub placePieceAt {
     my ($self, $piece, $coordinate) = @_;
     
+    # Short circuit the operation if the piece is already a placedPiece
+    if (not ($piece->isa("Checkers::SinglePiece") or $piece->isa("Checkers::KingPiece"))) {
+        $self->{squares}[$coordinate->{row}][$coordinate->{col}] = $piece;
+        $piece->{coordinate} = $coordinate;
+        return $piece;
+    }
+    
     my $placedPiece = {
         piece => $piece,
         coordinate => $coordinate,
