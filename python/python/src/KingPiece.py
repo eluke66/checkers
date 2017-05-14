@@ -7,18 +7,9 @@ Created on Apr 9, 2017
 from Piece import Piece
 from Coordinate import Coordinate
 
-# Lame - circular name dependencies between pieces, moves, and moverules
-import sys
-if not "MoveRules" in sys.modules:
-    from MoveRules import MoveRules
-
-
 import MoveRules
     
 class KingPiece(Piece):
-    '''
-    classdocs
-    '''
 
     def __init__(self, color):
         super().__init__(color, False)

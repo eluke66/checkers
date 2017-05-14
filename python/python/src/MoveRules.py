@@ -8,27 +8,13 @@ from Move import Move
 import itertools
 
 class MoveRules(object):
-    '''
-    classdocs
-    '''
 
-
-    def __init__(self):
-        '''
-        Constructor
-        '''
-        pass
-        
-    
     @staticmethod 
     def getJumpMoves(board, piece, coordinate, coordProducer):
         isValid = lambda c: board.isValidPosition(c) and pieceIsJumpable(board,piece,c) and nextSpaceIsLandable(board,piece,coordinate,c)
         toMove = lambda c: Move.jumpMove(board, piece, coordinate, c)
         
-        #print ("getJumpMoves::Coords are " + str(coordProducer(coordinate)))
-        #print ("getJumpMoves::Valid coords are " + str(list(filter(isValid,coordProducer(coordinate)))))
         initialMoves = list(map(toMove, filter(isValid,coordProducer(coordinate))))
-        #print ("getJumpMoves::MoveRules - initial jump moves are " + str(initialMoves))
         return searchJumps(initialMoves, board, piece, coordProducer)
        
     @staticmethod
@@ -36,8 +22,6 @@ class MoveRules(object):
         isValid = lambda c: board.isValidPosition(c) and board[c] is None
         toMove = lambda c: Move.simpleMove(board, piece, coordinate, c)
         
-        #print ("getSimpleMoves::Coords are " + str(coordProducer(coordinate)))
-        #print ("getSimpleMoves::Valid coords are " + str(list(filter(isValid,coordProducer(coordinate)))))
         return list(map(toMove, filter(isValid,coordProducer(coordinate))))
     
      
@@ -90,4 +74,3 @@ def searchJumps(incomingMoves, board, piece, coordProducer):
             finalMoves.append(move)
     
     return finalMoves
-    

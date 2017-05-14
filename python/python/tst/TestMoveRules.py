@@ -20,7 +20,7 @@ class TestMoveRules(TestBase):
         
         moves = self.rules.getMovesForColor(Color.BLACK, self.board)
 
-        self.assertEquals(1, len(moves)) 
+        self.assertEqual(1, len(moves)) 
         moves[0].execute()
         
         self.assertNoRedPieces()
@@ -32,14 +32,11 @@ class TestMoveRules(TestBase):
 
         moves = self.rules.getMovesForColor(Color.BLACK, self.board);
 
-        self.assertEquals(1, len(moves)) 
+        self.assertEqual(1, len(moves)) 
         moves[0].execute()
 
         self.assertNoRedPieces()
         self.assertPieceIsBlack(4,6)
     
-    
-    
 if __name__ == "__main__":
-    #import sys;sys.argv = ['', 'Test.testName']
     unittest.main()

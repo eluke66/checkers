@@ -5,11 +5,6 @@ Created on Apr 9, 2017
 '''
 
 class Coordinate(object):
-    '''
-    classdocs
-    '''
-
-
     def __init__(self, row, col):
         self.row = row
         self.col = col

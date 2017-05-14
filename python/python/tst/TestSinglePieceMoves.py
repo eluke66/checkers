@@ -9,9 +9,6 @@ from Coordinate import Coordinate
 
 class TestSinglePieceMoves(TestBase):
 
-    def setUp(self):
-        TestBase.setUp(self)
-
     def testSinglePiecesCannotJumpWhenBlocked(self):
         blackPiece = self.blackPieceAt(0,0)
         self.redPieceAt(1,1)
@@ -120,5 +117,4 @@ class TestSinglePieceMoves(TestBase):
         self.assertFalse(newPiece.canBeKinged)
 
 if __name__ == "__main__":
-    #import sys;sys.argv = ['', 'Test.testName']
     unittest.main()

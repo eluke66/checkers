@@ -11,8 +11,6 @@ from Coordinate import Coordinate
 
 
 class TestKingPieceMoves(TestBase):
-
-
     def testKingsCanMoveForwardAndBackwards(self):
         blackPiece = self.blackPieceAt(2,2)
         
@@ -94,5 +92,4 @@ class TestKingPieceMoves(TestBase):
         return KingPiece(Color.RED)
     
 if __name__ == "__main__":
-    #import sys;sys.argv = ['', 'Test.testName']
     unittest.main()

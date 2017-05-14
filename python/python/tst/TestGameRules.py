@@ -30,7 +30,7 @@ class TestGameRules(TestBase):
         self.assertPieceIsRed(end, end)
         
     def testBoardIs8x8(self):
-        self.assertEquals(8, self.board.size())
+        self.assertEqual(8, self.board.size())
         
     def testBlackMovesFirst(self):
         player1 = Player()
@@ -70,5 +70,4 @@ class TestGameRules(TestBase):
         self.assertEqual(player1, winner)
 
 if __name__ == "__main__":
-    #import sys;sys.argv = ['', 'Test.testName']
     unittest.main()

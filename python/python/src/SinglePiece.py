@@ -9,9 +9,6 @@ from Coordinate import Coordinate
 from MoveRules import MoveRules
 
 class SinglePiece(Piece):
-    '''
-    classdocs
-    '''
     FORWARD = 1
     BACKWARDS = -1
 

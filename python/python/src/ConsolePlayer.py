@@ -7,9 +7,6 @@ Created on Apr 21, 2017
 from Player import Player
 
 class ConsolePlayer(Player):
-    '''
-    classdocs
-    '''
 
     def selectMove(self, moves, board):
         for i in range(len(moves)):

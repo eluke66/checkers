@@ -2,4 +2,5 @@
 (cd c/ ; ./makeClean && ./makeAll)
 (cd groovy/ ; mvn clean package jar:jar appassembler:assemble) && chmod u+x groovy/target/appassembler/bin/checkers
 (cd java/ ; mvn clean package jar:jar appassembler:assemble) && chmod u+x java/target/appassembler/bin/checkers
-(cd perl ; prove -v)
+(cd perl/ ; prove -v)
+(cd python/ ; PYTHONPATH=$PWD/src:$PWD/tst python3 -m unittest -v tst/*.py) 

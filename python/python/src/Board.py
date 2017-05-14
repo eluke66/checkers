@@ -19,7 +19,6 @@ class Board(object):
             self.piece = piece
             self.coordinate = coordinate
             self.getSimpleMoves = lambda b: piece.getSimpleMoves(self.coordinate, b)
-            #self.getJumpMoves = lambda b: piece.getJumpMoves(self.coordinate, b)
         
         def __str__(self):
             return str(self.piece) + "@" + str(self.coordinate)

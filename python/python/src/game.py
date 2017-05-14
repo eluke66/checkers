@@ -13,9 +13,6 @@ from Board import Board
 from MoveRules import MoveRules
 
 class Game(object):
-    '''
-    classdocs
-    '''
     NUM_PIECES_PER_PLAYER = 12
 
     def __init__(self, player1, player2, moveRules=None, eventHandler=None):

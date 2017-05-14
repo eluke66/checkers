@@ -8,15 +8,7 @@ from Coordinate import Coordinate
 from KingPiece import KingPiece
 
 class Move(object):
-    '''
-    classdocs
-    '''
-
-
     def __init__(self, piece, board, moveFrom, moveTo):
-        '''
-        Constructor
-        '''
         self.piece = piece
         self.board = board
         self.moveFrom = moveFrom

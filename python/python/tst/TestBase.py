@@ -10,7 +10,6 @@ from color import Color
 from SinglePiece import SinglePiece
 from Board import Board
 
-
 class TestBase(unittest.TestCase):
 
     def setUp(self):
@@ -18,21 +17,21 @@ class TestBase(unittest.TestCase):
         
     # Utility methods
     def assertNoRedPieces(self):
-        self.assertEquals(0, len(self.board.getPiecesForColor(Color.RED)))
+        self.assertEqual(0, len(self.board.getPiecesForColor(Color.RED)))
         
     def assertNoBlackPieces(self):
-        self.assertEquals(0, len(self.board.getPiecesForColor(Color.BLACK)))
+        self.assertEqual(0, len(self.board.getPiecesForColor(Color.BLACK)))
         
     def assertPieceIsBlack(self, row, col):
         piece = self.board[Coordinate(row,col)]
         self.assertTrue(piece is not None)
-        self.assertEquals(Color.BLACK, piece.color)
+        self.assertEqual(Color.BLACK, piece.color)
         return piece
         
     def assertPieceIsRed(self, row, col):
         piece = self.board[Coordinate(row,col)]
         self.assertTrue(piece is not None)
-        self.assertEquals(Color.RED, piece.color)
+        self.assertEqual(Color.RED, piece.color)
         return piece
         
     def assertNoPieceAt(self, row, col):
@@ -51,6 +50,3 @@ class TestBase(unittest.TestCase):
     def redPiece(self):
         return SinglePiece(Color.RED, SinglePiece.BACKWARDS)
 
-if __name__ == "__main__":
-    #import sys;sys.argv = ['', 'Test.testName']
-    unittest.main()
