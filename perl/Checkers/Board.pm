@@ -4,13 +4,10 @@ use strict;
 use warnings;
 use Checkers::Color;
 use Checkers::SinglePiece;
-use Carp;
 require Exporter;
 
 our @ISA = qw(Exporter);
-our @EXPORT_OK   = qw(dump);
-
-use Data::Dumper;
+our @EXPORT = qw();
 
 use constant SIZE => 8;
 
@@ -51,8 +48,8 @@ sub isFinalRowForPiece {
     my $color = $piece->{color};
     my $row = $dest->{row};
     
-    return ( ($color == Checkers::Color::RED and $row == 0) or
-             ($color == Checkers::Color::BLACK and $row == ($self->size()-1)) );
+    return ( ($color == RED and $row == 0) or
+             ($color == BLACK and $row == ($self->size()-1)) );
 }
 
 
@@ -114,12 +111,6 @@ sub isValidPosition {
     return ($row >= 0 and $col >= 0 and
            $row < $self->size() and $col < $self->size() and
            isUsableSquare($row, $col));
-}
-
-sub dump {
-    my $self = shift;
-    
-    print Dumper($self) . "\n";
 }
 
 sub toString {

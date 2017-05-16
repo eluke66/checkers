@@ -3,7 +3,6 @@ use Checkers::Board;
 use Checkers::SinglePiece;
 use Checkers::Coordinate;
 use Checkers::Color;
-use Data::Dumper;
 
 use lib 't/';
 use Checkers::TestHelpers;
@@ -18,7 +17,7 @@ subtest "Single pieces cannot jump when blocked" => sub {
     redPieceAt($board, 2,2);
     
     my @moves = $blackPiece->{getJumpMoves}($board);
-    ok(scalar @moves == 0, "no moves allowed");
+    is(scalar @moves, 0, "no moves allowed");
 };
 
 subtest "Single pieces cannot jump their own man" => sub {
@@ -27,7 +26,7 @@ subtest "Single pieces cannot jump their own man" => sub {
     blackPieceAt($board, 1,1);
     
     my @moves = $blackPiece->{getJumpMoves}($board);
-    ok(scalar @moves == 0, "no moves allowed");
+    is(scalar @moves, 0, "no moves allowed");
 };
 
 subtest "Single pieces have two forward moves" => sub {
@@ -35,17 +34,19 @@ subtest "Single pieces have two forward moves" => sub {
     my $blackPiece = blackPieceAt($board, 0,2);
 
     my @moves = $blackPiece->{getSimpleMoves}($board);
-    ok(scalar @moves == 2, "should have 2 moves");
+    is(scalar @moves, 2, "should have 2 moves");
     foreach my $move (@moves) {
-        ok( $move->{moveTo}->equals(Checkers::Coordinate->new(1,1)) or $move->{moveTo}->equals(Checkers::Coordinate->new(1,3)), "moves should end at the right spots" );
+        ok( $move->{moveTo}->equals(Checkers::Coordinate->new(1,1)) or 
+            $move->{moveTo}->equals(Checkers::Coordinate->new(1,3)), "moves should end at the right spots" );
     }
     
     my $redPiece = redPieceAt($board, 4, 2);
     @moves = $redPiece->{getSimpleMoves}($board);
-    ok(scalar @moves == 2, "should have 2 moves");
+    is(scalar @moves, 2, "should have 2 moves");
 
     foreach my $move (@moves) {
-        ok( $move->{moveTo}->equals(Checkers::Coordinate->new(3,1)) or $move->{moveTo}->equals(Checkers::Coordinate->new(3,3)), "moves should end at the right spots" );
+        ok( $move->{moveTo}->equals(Checkers::Coordinate->new(3,1)) or 
+            $move->{moveTo}->equals(Checkers::Coordinate->new(3,3)), "moves should end at the right spots" );
     }
 };
 
@@ -56,8 +57,7 @@ subtest "Single pieces cannot move off the board or when blocked" => sub {
     
     my @moves = $blackPiece->{getSimpleMoves}($board);
 
-    ok(scalar @moves == 0, "no moves allowed");
-   
+    is(scalar @moves, 0, "no moves allowed");
 };
 
 subtest "Single pieces can jump once and that piece is removed" => sub { 
@@ -67,7 +67,7 @@ subtest "Single pieces can jump once and that piece is removed" => sub {
     
     my @moves = $blackPiece->{getJumpMoves}($board);
     
-    ok(scalar @moves == 1);
+    is(scalar @moves, 1, "Must have a single move");
     $moves[0]->{execute}();
     
     assertNoRedPieces($board);
@@ -83,7 +83,7 @@ subtest "Single pieces can jump more than once and those pieces are removed" => 
     
     my @moves = $blackPiece->{getJumpMoves}($board);
     
-    ok(scalar @moves == 1);
+    is(scalar @moves, 1, "Must have a single move");
     $moves[0]->{execute}();
     
     assertNoRedPieces($board);
@@ -98,9 +98,10 @@ subtest "Single pieces can have two forward jumps" => sub {
     redPieceAt($board, 1,3);
 
     my @moves = $blackPiece->{getJumpMoves}($board);
-    ok(scalar @moves == 2, "should have 2 moves");
+    is(scalar @moves, 2, "should have 2 moves");
     foreach my $move (@moves) {
-        ok( $move->{moveTo}->equals(Checkers::Coordinate->new(2,0)) or $move->{moveTo}->equals(Checkers::Coordinate->new(2,4)), "moves should end at the right spots" );
+        ok( $move->{moveTo}->equals(Checkers::Coordinate->new(2,0)) or 
+            $move->{moveTo}->equals(Checkers::Coordinate->new(2,4)), "moves should end at the right spots" );
     }
 };
 
@@ -112,9 +113,10 @@ subtest "Single pieces can have multiple forward multi-jumps" => sub {
     redPieceAt($board, 3,5);
 
     my @moves = $blackPiece->{getJumpMoves}($board);
-    ok(scalar @moves == 2, "should have 2 moves");
+    is(scalar @moves, 2, "should have 2 moves");
     foreach my $move (@moves) {
-        ok( $move->{moveTo}->equals(Checkers::Coordinate->new(2,0)) or $move->{moveTo}->equals(Checkers::Coordinate->new(4,6)), "moves should end at the right spots" );
+        ok( $move->{moveTo}->equals(Checkers::Coordinate->new(2,0)) or 
+            $move->{moveTo}->equals(Checkers::Coordinate->new(4,6)), "moves should end at the right spots" );
     }
 };
 
@@ -124,11 +126,11 @@ subtest "When single piece moves into the back row it is kinged" => sub {
     
     my @moves = $blackPiece->{getSimpleMoves}($board);
         
-    ok(scalar @moves == 1, "should have 1 move");
+    is(scalar @moves, 1, "Must have a single move");
     $moves[0]->{execute}();
     
     my $newPiece = assertPieceIsBlack($board,$board->size()-1,1);
-    ok( $newPiece->{canBeKinged} == 0 );
+    is( $newPiece->{canBeKinged}, 0, "Should be a king" );
 };
 
 
@@ -139,12 +141,11 @@ subtest "When single piece jumps into the back row it is kinged" => sub {
     
     my @moves = $blackPiece->{getJumpMoves}($board);
         
-    ok(scalar @moves == 1, "should have 1 move");
+    is(scalar @moves, 1, "Must have a single move");
     $moves[0]->{execute}();
     
     my $newPiece = assertPieceIsBlack($board,$board->size()-1,3);
-    ok( $newPiece->{canBeKinged} == 0 );
+    is( $newPiece->{canBeKinged}, 0, "Should be a king" );
 };
 
 done_testing();
-

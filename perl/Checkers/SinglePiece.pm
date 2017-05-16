@@ -4,13 +4,11 @@ use strict;
 use warnings;
 use Checkers::MoveRules;
 use Checkers::Coordinate;
-use Data::Dumper;
-use Carp;
 
 require Exporter;
 
 our @ISA    = qw( Exporter );
-our @EXPORT = qw( FORWARD BACKWARDS getSimpleMoves );
+our @EXPORT = qw( FORWARD BACKWARDS );
 
 use constant FORWARD => 1;
 use constant BACKWARDS => -1;
@@ -41,7 +39,6 @@ sub getJumpMoves {
 
 sub getCoords { 
     my ($dir, $coord) = @_;
-    confess "Needed a coord, got $coord" unless $coord->isa("Checkers::Coordinate");
     
     my $row = $coord->{row};
     my @coords = ( 

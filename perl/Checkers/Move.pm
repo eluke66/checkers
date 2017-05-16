@@ -98,7 +98,6 @@ sub jumpMove {
     return $move;
 }
 
-
 sub execMultiJumpMove {
     my $self = shift;
     

@@ -4,12 +4,11 @@ use strict;
 use warnings;
 use Checkers::Move;
 use Checkers::Board;
-use Data::Dumper;
 
 require Exporter;
 
 our @ISA    = qw( Exporter );
-our @EXPORT = qw(computeSimpleMoves getMovesForColor);
+our @EXPORT = qw(computeSimpleMoves computeJumpMoves getMovesForColor);
 
 sub grepAndMap {
     my ($grepRef, $mapRef, @items) = @_;

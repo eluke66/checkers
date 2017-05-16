@@ -37,7 +37,7 @@ sub putPiecesOnTheBoard {
         }
     }
 }
-use Data::Dumper;
+
 sub play {
 	my ($board, $player1, $player2, $getMovesForColor, $eventHandler) = @_;
 
@@ -65,6 +65,5 @@ sub play {
 
     return $winningPlayer
 }
-
 
 1;

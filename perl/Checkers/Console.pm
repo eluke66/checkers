@@ -5,7 +5,7 @@ use warnings;
 use Exporter;
 
 our @ISA = qw(Exporter);
-our @EXPORT   = qw(player);
+our @EXPORT   = qw(player eventHandler);
 
 sub player {
     my $self = {
@@ -30,18 +30,6 @@ sub eventHandler {
     
     bless $self;
     return $self;
-}
-
-sub cToStr {
-    my $c = shift;
-    
-    return "(" . $c->{row} . ", " . $c->{col} . ")";
-}
-
-sub toString {
-    my $move = shift;
-    
-    return cToStr($move->{moveFrom}) . " to " . cToStr($move->{moveTo});
 }
 
 sub getMovesFromConsole {

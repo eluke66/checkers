@@ -30,7 +30,7 @@ sub playInteractive {
     use Checkers::Console;
     
     my $board = Checkers::Board->new;
-    Checkers::Game::play( $board, Checkers::Console::player, Checkers::Console::player, \&Checkers::MoveRules::getMovesForColor, Checkers::Console::eventHandler);
+    Checkers::Game::play( $board, player(), player(), \&Checkers::MoveRules::getMovesForColor, eventHandler());
 }
 
 if (scalar @ARGV > 0) {

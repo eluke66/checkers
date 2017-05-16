@@ -16,11 +16,11 @@ use warnings;
 
 sub blackPieceAt {
     my ($board, $row, $col) = @_;
-    return $board->placePieceAt(Checkers::KingPiece->new(Checkers::Color::BLACK), Checkers::Coordinate->new($row,$col))   
+    return $board->placePieceAt(Checkers::KingPiece->new(BLACK), Checkers::Coordinate->new($row,$col))   
 }
 sub redPieceAt {
     my ($board, $row, $col) = @_;
-    return $board->placePieceAt(Checkers::KingPiece->new(Checkers::Color::RED), Checkers::Coordinate->new($row,$col))   
+    return $board->placePieceAt(Checkers::KingPiece->new(RED), Checkers::Coordinate->new($row,$col))   
 }
 
 subtest "Kings can move forward and backwards" => sub {
@@ -28,7 +28,7 @@ subtest "Kings can move forward and backwards" => sub {
     my $blackPiece = blackPieceAt($board, 2, 2);
     
     my @moves = $blackPiece->{getSimpleMoves}($board);
-    ok(scalar @moves == 4, "should have 4 moves");
+    is(scalar @moves, 4, "should have 4 moves");
     foreach my $move (@moves) {
         ok( 
             $move->{moveTo}->equals(Checkers::Coordinate->new(1,1)) or 
@@ -45,7 +45,7 @@ subtest "Kings cannot jump when blocked" => sub {
     redPieceAt($board, 2,2);
     
     my @moves = $blackPiece->{getJumpMoves}($board);
-    ok(scalar @moves == 0, "no moves allowed");
+    is(scalar @moves, 0, "no moves allowed");
 };
 
 subtest "Kings can jump forward once" => sub {
@@ -55,7 +55,7 @@ subtest "Kings can jump forward once" => sub {
     
     my @moves = $blackPiece->{getJumpMoves}($board);
     
-    ok(scalar @moves == 1);
+    is(scalar @moves, 1, "Should have a single move");
     $moves[0]->{execute}();
     
     assertNoRedPieces($board);
@@ -70,7 +70,7 @@ subtest "Kings can jump backwards once" => sub {
     
     my @moves = $blackPiece->{getJumpMoves}($board);
     
-    ok(scalar @moves == 1);
+    is(scalar @moves, 1, "Should have a single move");
     $moves[0]->{execute}();
     
     assertNoRedPieces($board);
@@ -86,7 +86,7 @@ subtest "Kings can jump forwards then backwards" => sub {
     
     my @moves = $blackPiece->{getJumpMoves}($board);
     
-    ok(scalar @moves == 1);
+    is(scalar @moves, 1, "Should have a single move");
     $moves[0]->{execute}();
     
     assertNoRedPieces($board);
@@ -103,7 +103,7 @@ subtest "Kings can jump backwards then forwards" => sub {
     
     my @moves = $blackPiece->{getJumpMoves}($board);
     
-    ok(scalar @moves == 1);
+    is(scalar @moves, 1, "Should have a single move");
     $moves[0]->{execute}();
     
     assertNoRedPieces($board);

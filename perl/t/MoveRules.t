@@ -3,9 +3,6 @@ use Checkers::Board;
 use Checkers::Coordinate;
 use Checkers::MoveRules;
 use Checkers::Color;
-use Data::Dumper;
-use strict;
-use warnings;
 
 use lib 't/';
 use Checkers::TestHelpers;
@@ -18,9 +15,9 @@ subtest "If capturing moves are available they must be picked for simple jumps" 
     my $blackPiece = blackPieceAt($board, 0, 2);
     redPieceAt($board, 1, 1);
     
-    my @moves = getMovesForColor($board, Checkers::Color::BLACK);
+    my @moves = getMovesForColor($board, BLACK);
     
-    ok(scalar @moves == 1, "should have 1 moves");
+    is(scalar @moves, 1, "Should have a single move");
     $moves[0]->{execute}();
     
     assertNoRedPieces($board);
@@ -32,9 +29,9 @@ subtest "If capturing moves are available they must be picked for multi jumps" =
     redPieceAt($board, 1, 3);
     redPieceAt($board, 3, 5);
     
-    my @moves = getMovesForColor($board, Checkers::Color::BLACK);
+    my @moves = getMovesForColor($board, BLACK);
     
-    ok(scalar @moves == 1, "should have 1 moves");
+    is(scalar @moves, 1, "Should have a single move");
     $moves[0]->{execute}();
     
     assertNoRedPieces($board);

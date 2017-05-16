@@ -12,7 +12,6 @@ require Exporter;
 our @ISA    = qw( Exporter );
 our @EXPORT = qw( );
 
-
 sub new {
   my ($class, $color) = @_;
   
@@ -25,7 +24,6 @@ sub new {
   
   return $self;
 }
-
 
 sub getSimpleMoves {
     my ($self, $coordinate, $board) = @_;

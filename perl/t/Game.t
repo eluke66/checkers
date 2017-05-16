@@ -4,6 +4,7 @@ use Checkers::Coordinate;
 use Checkers::Game;
 use Checkers::Color;
 use Checkers::Move;
+use Checkers::SinglePiece;
 use Data::Dumper;
 use strict;
 use warnings;
@@ -15,8 +16,8 @@ subtest "Each player starts with 12 pieces" => sub {
     my $board = Checkers::Board->new;
     Checkers::Game::putPiecesOnTheBoard($board);
     
-    ok( scalar $board->getPiecesForColor(Checkers::Color::BLACK) == 12, "Black must have 12 pieces");
-    ok( scalar $board->getPiecesForColor(Checkers::Color::RED) == 12, "Red must have 12 pieces");
+    is( scalar $board->getPiecesForColor(BLACK), 12, "Black must have 12 pieces");
+    is( scalar $board->getPiecesForColor(RED), 12, "Red must have 12 pieces");
 };
 
 subtest "Closest left square to each player starts with a piece" => sub {
@@ -31,13 +32,13 @@ subtest "Closest left square to each player starts with a piece" => sub {
 subtest "Board is 8x8" => sub {
     my $board = Checkers::Board->new;
     
-    ok( $board->size() == 8, "Board must be of size 8" );
+    is( $board->size(), 8, "Board must be of size 8" );
 };
 
 subtest "Black moves first" => sub {
     my $board = Checkers::Board->new;
     my ($player1, $player2) = undef;  # Dummy values
-    my $getMovesForColor = sub { my ($board,$color) = @_; ok( $color == Checkers::Color::BLACK ); my @moves; return @moves;};
+    my $getMovesForColor = sub { my ($board,$color) = @_; ok( $color == BLACK ); my @moves; return @moves;};
     
     Checkers::Game::play($board, $player1, $player2, $getMovesForColor, undef);
 };
@@ -48,7 +49,7 @@ subtest "Red moves after black" => sub {
     my $player2 = undef;    
     my $from = Checkers::Coordinate->new(2,0);
     my $to = Checkers::Coordinate->new(3,1);
-    my $blackMoves = [ Checkers::Move::simpleMove( $board, Checkers::SinglePiece->new(BLACK, Checkers::SinglePiece::FORWARD), $from, $to ) ];
+    my $blackMoves = [ Checkers::Move::simpleMove( $board, Checkers::SinglePiece->new(BLACK, FORWARD), $from, $to ) ];
     my $redMoves = [];
     my %movesPerColor = ( &BLACK => $blackMoves, &RED => $redMoves );
     my $getMovesForColor = sub { 
@@ -63,7 +64,7 @@ subtest "Red moves after black" => sub {
     
     Checkers::Game::play($board, $player1, $player2, $getMovesForColor, undef);
 
-    ok ( scalar keys %movesPerColor == 0, "All moves should be consumed" );
+    is( scalar keys %movesPerColor, 0, "All moves should be consumed" );
 };
 
 subtest "When a player cannot move the other player wins" => sub {
@@ -73,7 +74,7 @@ subtest "When a player cannot move the other player wins" => sub {
     
     my $winner = Checkers::Game::play($board, $player1, $player2, $getMovesForColor, undef);
 
-    ok ( $winner == $player2, "Player 2 should win" );
+    is ( $player2, $winner, "Player 2 should win" );
 };
 
 done_testing();
